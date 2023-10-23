@@ -1,0 +1,45 @@
+<div class="content">
+    <div class="container">
+        <mat-icon>edit</mat-icon>
+        <h1>Register</h1>
+        <form class="form" (ngSubmit)="onSubmit()">
+            <input type="text" placeholder="Your Username" id="input-username" class="input"
+                   [formControl]="loginGroup.controls.username">
+            <p *ngIf="submitted && loginGroup.controls.username.hasError('minlength')" class="error-message">
+                Username must be at least 4 characters long.
+            </p>
+            <p *ngIf="submitted && loginGroup.controls.username.hasError('required')" class="error-message">
+                This field is required
+            </p>
+            <input type="text" id="input-login" class="input" placeholder="Your Login"
+                   [formControl]="loginGroup.controls.login">
+            <p *ngIf="loginGroup.controls.login.hasError('loginNotUnique')" class="error-message">
+                This login is not unique.
+            </p>
+            <p *ngIf="submitted && loginGroup.controls.login.hasError('minlength')" class="error-message">
+                Username must be at least 4 characters long.
+            </p>
+            <p *ngIf="submitted && loginGroup.controls.login.hasError('required')" class="error-message">
+                This field is required
+            </p>
+            <div class="password-input">
+                <input id="input-password" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
+                       [formControl]="loginGroup.controls.password">
+                <a class="password-toggle" (click)="togglePasswordVisibility()">
+                    <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </a>
+            </div>
+            <p *ngIf="submitted && loginGroup.controls.password.hasError('minlength')" class="error-message">
+                Username must be at least 3 characters long.
+            </p>
+            <p *ngIf="submitted && loginGroup.controls.password.hasError('required')" class="error-message">
+                This field is required
+            </p>
+            <div>
+                <button class="btn" type="submit">REGISTER</button>
+            </div>
+            <!--        <p *ngIf="notUser">Проверьте правильность введенных данных</p>-->
+        </form>
+        <a routerLink="/authorization">I have an account</a>
+    </div>
+</div>

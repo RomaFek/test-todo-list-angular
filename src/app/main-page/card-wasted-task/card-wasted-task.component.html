@@ -1,0 +1,70 @@
+<ng-container *ngIf="(isNotCompletedColl() | async) as arrColData;">
+    <div class="task-card" *ngIf="arrColData.length > 0" (drop)="onDrop($event, arrColData[0].collectionTask)"
+         (dragover)="allowDrop($event)">
+
+        <div class="card-header">
+            <div class="task-collection">
+                <mat-icon class="task-icon"
+                          [class]="arrColData[0].collectionTask + '-icon'">{{ arrColData[0].collectionTask }}</mat-icon>
+                {{ arrColData[0].collectionTask }}
+            </div>
+            <a (click)="clickDropDown()">
+                <mat-icon class="task-icon-dropup">{{ dropDown ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+            </a>
+        </div>
+        <div class="card-body" *ngIf="dropDown">
+            <ng-container *ngFor="let coll of isNotCompletedColl() | async">
+                <div class="card-container">
+                    <div class="card-container-left">
+                        <label class="label">
+                            <app-input [taskCol]="coll"></app-input>
+                            <span [ngClass]="{'completed': coll.isCompleted,'not-completed': !coll.isCompleted}"
+                                  class="fake {{coll.collectionTask}}"></span>
+                            <span class="text">{{ coll.description }}</span>
+                        </label>
+                        <p class="endDate"><span *ngIf="onMiniTask(coll) | async as miniTasks">
+                                    <span class="current" *ngIf="miniTasks.length">{{ onCurrentTask(miniTasks) }}</span>
+                                </span> {{coll.endDate | customDate}}</p>
+                        <ng-container *ngIf="dropDownMiniTask">
+                            <ng-container *ngIf="onMiniTask(coll) | async as miniTasks">
+                                <ng-container *ngIf="checkMiniTasks(coll)"></ng-container>
+                                <div class="mini-task" *ngFor="let miniTask of miniTasks">
+                                    <label class="label">
+
+                                        <app-mini-task-input [taskCol]="miniTask"></app-mini-task-input>
+                                        <span [ngClass]="{'completed': miniTask.isCompleted,'not-completed': !miniTask.isCompleted}"
+                                              class="fake {{coll.collectionTask}}">✓</span>
+                                        <span [ngClass]="{'completed': miniTask.isCompleted,'not-completed': !miniTask.isCompleted}"
+                                              class="text">{{ miniTask.description }}</span>
+                                    </label>
+
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                    <div class="icon-container">
+                        <span *ngIf="onMiniTask(coll) | async as miniTasks">
+
+                        <a *ngIf="miniTasks.length" (click)="clickDropDownMiniTask()">
+                            <mat-icon
+                                    class="task-icon-dropup">{{ dropDownMiniTask ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+                        </a>
+                        </span>
+                        <mat-icon (click)="openAddMiniTaskModal(coll)">add</mat-icon>
+                        <mat-icon id="drag" draggable="true" (dragstart)="onDragStart($event, coll)">touch_app
+                        </mat-icon>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div *ngIf="dropDown">
+
+            <div *ngIf="arrColData.length > 0" class="card-bottom"
+                 [routerLink]="'/collections/' + arrColData[0].collectionTask">
+                <p>Go to Collection </p>
+                <mat-icon class="task-icon-dropup">arrow_forward</mat-icon>
+            </div>
+        </div>
+
+    </div>
+</ng-container>

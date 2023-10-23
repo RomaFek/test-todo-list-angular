@@ -1,0 +1,8 @@
+<form class="container" (ngSubmit)="onSubmit()">
+    <h3>Enter the name of the new collection.</h3>
+    <div>
+        <input [formControl]="newCollection" id="task-description" type="text"
+               placeholder="Name your new collection">
+        <button type="submit">Enter</button>
+    </div>
+</form>

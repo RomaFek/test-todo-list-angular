@@ -1,0 +1,16 @@
+.edit-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-icon {
+  margin: 15px;
+  color: #89898e;
+  cursor: pointer;
+}
+
+#task-collection {
+  background-color: #89898e;
+  color: white;
+}
