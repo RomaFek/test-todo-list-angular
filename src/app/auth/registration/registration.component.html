@@ -2,7 +2,7 @@
     <div class="container">
         <mat-icon>edit</mat-icon>
         <h1>Register</h1>
-        <form class="form" (ngSubmit)="onSubmit()">
+        <form class="form" [formGroup]="loginGroup" (ngSubmit)="onSubmit($event)">
             <input type="text" placeholder="Your Username" id="input-username" class="input"
                    [formControl]="loginGroup.controls.username">
             <p *ngIf="submitted && loginGroup.controls.username.hasError('minlength')" class="error-message">

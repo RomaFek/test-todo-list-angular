@@ -35,23 +35,22 @@ export class AuthComponent {
         this.showPassword = !this.showPassword;
     }
 
-    public onSubmit() {
+    public onSubmit(event: Event) {
+        event.preventDefault()
         this.submitted = true
-        const loginValue = this.loginGroup.controls.login.value;
-        if (loginValue) {
-            this.authService.loginUser(loginValue).pipe(
-                // switchMap((el) => {
-                //     return this.authService.setUsername(el)}),
-                takeUntil(this.destroy$)).subscribe(user => {
-                if (user) {
-                    sessionStorage.setItem('authenticated', 'true');
-                    // this.authService.registration(user).pipe(takeUntil(this.destroy$)).subscribe()
-                    this.router.navigate(['/']);
-                } else {
-                    // this.notUser = true
-                }
-            });
-        }
-    }
+        if (this.authService) {
+            const loginValue = this.loginGroup.controls.login.value;
+            if (loginValue) {
+                this.authService.loginUser(loginValue)?.pipe(
+                    takeUntil(this.destroy$)).subscribe(user => {
+                    if (user) {
+                        sessionStorage.setItem('authenticated', 'true');
+                        this.router.navigate(['/']);
+                    }
+                });
+            }
 
+        }
+
+    }
 }

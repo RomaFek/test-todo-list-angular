@@ -8,7 +8,7 @@ import {HttpClient} from "@angular/common/http";
     providedIn: 'root'
 })
 export class CopyBDService {
-    private allTaskSubject$: BehaviorSubject<ITask[]> = new BehaviorSubject<ITask[]>([]);
+    allTaskSubject$: BehaviorSubject<ITask[]> = new BehaviorSubject<ITask[]>([]);
 
     // private notCompletedTaskSubject$: BehaviorSubject<ITask[]> = new BehaviorSubject<ITask[]>([]);
 

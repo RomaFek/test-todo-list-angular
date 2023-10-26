@@ -2,7 +2,7 @@
     <div class="container">
         <mat-icon>home</mat-icon>
         <h1>Member Login</h1>
-        <form class="form" (ngSubmit)="onSubmit()">
+        <form class="form" [formGroup]="loginGroup" (ngSubmit)="onSubmit($event)">
             <input type="text" id="input-login" placeholder="Your Login" [formControl]="loginGroup.controls.login">
             <p *ngIf="submitted && loginGroup.controls.login.hasError('minlength')" class="error-message">
                 Username must be at least 3 characters long.

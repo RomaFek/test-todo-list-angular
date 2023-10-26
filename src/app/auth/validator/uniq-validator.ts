@@ -13,13 +13,12 @@ export class UniqueLoginValidator {
     public validateLoginUniqueness(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> => {
             const login = control.value;
-
-            return this.authService.loginUser(login).pipe(
+            return this.authService?.loginUser(login)?.pipe(
                 map(isUnique => (!isUnique ? null : {loginNotUnique: true})),
-
                 catchError(() => of(null))
-            );
+            ) ?? of(null);
         };
     }
+
 
 }

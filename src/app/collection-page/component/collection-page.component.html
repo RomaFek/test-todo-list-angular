@@ -9,9 +9,9 @@
                 </div>
                 <h1>{{collection}}</h1>
             </div>
-            <div class="notCompleted" *ngIf="tasksReady$ | async">
-                <h3>Tasks - {{(tasksReady$ | async)?.length}}</h3>
-                <div class="task" *ngFor="let  task of tasksReady$ | async">
+            <div class="notCompleted" *ngIf="onFiltredTruthy() | async">
+                <h3>Tasks - {{(onFiltredTruthy() | async)?.length}}</h3>
+                <div class="task" *ngFor="let  task of onFiltredTruthy() | async">
                     <div>
                         <label class="label">
                             <input [formControl]="isCheckbox" (change)="changeTaskCompleted(task)" type="checkbox"
@@ -25,9 +25,9 @@
                     <app-edit-collection [task]="task"></app-edit-collection>
                 </div>
             </div>
-            <div class="completedTask" *ngIf="tasksReady$ | async">
-                <h3>Completed - {{(tasksFalsy$ | async)?.length}}</h3>
-                <div class="task" *ngFor="let  task of tasksFalsy$ | async">
+            <div class="completedTask" *ngIf="onFiltredFalsy() | async">
+                <h3>Completed - {{(onFiltredFalsy() | async)?.length}}</h3>
+                <div class="task" *ngFor="let  task of onFiltredFalsy() | async">
                     <div>
                         <label class="label">
                             <input [formControl]="isCheckbox" (change)="changeTaskCompleted(task)" type="checkbox"

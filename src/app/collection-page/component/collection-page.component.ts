@@ -18,8 +18,6 @@ import {ModalService} from "../../add-task/services/modal.service";
 })
 export class CollectionPageComponent implements OnInit {
     public collection!: string
-    public tasksReady$!: Observable<ITask[]>;
-    public tasksFalsy$!: Observable<ITask[]>;
     public sidenavVisible$!: Observable<boolean>
     public isCheckbox: FormControl<boolean>;
 
@@ -43,23 +41,19 @@ export class CollectionPageComponent implements OnInit {
             takeUntil(this.destroy$)
         ).subscribe(task => {
             this.collection = task;
-            this.tasksReady$ = this.copyBDService.allTasks.pipe(
-                map(tasks => tasks.filter((el) => el.collectionTask === this.collection)),
-                map(tasks => tasks.filter((el) => el.isCompleted === false)),
-            );
         });
-        this.route.params.pipe(
-            map(param => param['collectionTask']),
-            takeUntil(this.destroy$)
-        ).subscribe(task => {
-            this.collection = task;
-            this.tasksFalsy$ = this.copyBDService.allTasks.pipe(
-                map(tasks => tasks.filter((el) => el.collectionTask === this.collection)),
-                map(tasks => tasks.filter((el) => el.isCompleted === true)),
-            );
-        });
-        this.tasksFalsy$.pipe(map((el) => el.length))
-        this.tasksReady$.pipe(map((el) => el.length))
+
+    }
+
+
+    public onFiltredTruthy(): Observable<ITask[]> {
+        return this.copyBDService.allTasks.pipe(map(el => el.filter((el) => el.collectionTask === this.collection)),
+            map(tasks => tasks.filter((el) => el.isCompleted === false)))
+    }
+
+    public onFiltredFalsy(): Observable<ITask[]> {
+        return this.copyBDService.allTasks.pipe(map(el => el.filter((el) => el.collectionTask === this.collection)),
+            map(tasks => tasks.filter((el) => el.isCompleted === true)))
     }
 
     public changeTaskCompleted(task: ITask) {

@@ -76,7 +76,7 @@ export class AuthService {
         );
     }
 
-    public loginUser(userLogin: string): Observable<IUser> {
+    public loginUser(userLogin: string): Observable<IUser> | undefined {
         return new Observable<IUser>((observer) => {
             const openRequest = indexedDB.open("usersMain", 5);
 

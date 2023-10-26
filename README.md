@@ -9,7 +9,7 @@
 
 - Используйте следующие макеты в качестве
   ориентира: [Dashboard Daily Overview](https://dribbble.com/shots/15140935-Dashboard-Daily-Overview), [Collections](https://dribbble.com/shots/15154577-Collections), [Collection Tasks](https://dribbble.com/shots/15185058-Collection-Tasks).
-- Для бэкенда используйте Interceptor'ы, а хранение данных организуйте с использованием Indexed DB. Не используйте
+- Для бэкенда используйте Interceptor', а хранение данных организуйте с использованием Indexed DB. Не используйте
   сторонние библиотеки для работы с этой базой данных.
 - Реализуйте случайное падение методов бэкенда, и обработайте любые ошибки при запросе данных (например, выводом
   сообщения на экран).

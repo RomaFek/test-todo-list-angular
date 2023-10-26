@@ -54,7 +54,8 @@ export class RegistrationComponent {
     }
 
 
-    public onSubmit() {
+    public onSubmit(event: Event) {
+        event.preventDefault()
         this.submitted = true
         if (this.loginGroup.valid) {
             const user = {

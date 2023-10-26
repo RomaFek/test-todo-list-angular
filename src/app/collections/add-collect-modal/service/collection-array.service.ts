@@ -22,7 +22,7 @@ export class CollectionArrayService {
         return this.http.post('addCollection', newCollect)
     }
 
-    private getCollections() {
+    public getCollections() {
         this.getAllCollection().pipe(map(el => el.map((el) => el.name)),
             take(1)).subscribe(
             (col: string[]) => {
@@ -32,7 +32,7 @@ export class CollectionArrayService {
 
     }
 
-    private getAllCollection() {
+    public getAllCollection() {
         return new Observable<ICollection[]>((observer) => {
             const openRequest = indexedDB.open("collectionsStoreMain", 5);
 
