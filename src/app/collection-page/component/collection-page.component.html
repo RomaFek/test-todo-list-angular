@@ -9,41 +9,43 @@
                 </div>
                 <h1>{{collection}}</h1>
             </div>
-            <div class="notCompleted" *ngIf="onFiltredTruthy() | async">
-                <h3>Tasks - {{(onFiltredTruthy() | async)?.length}}</h3>
-                <div class="task" *ngFor="let  task of onFiltredTruthy() | async">
+            <div class="notCompleted" *ngIf="onFilteredTruthy() | async">
+                <h3>Tasks - {{(onFilteredTruthy() | async)?.length}}</h3>
+                <div class="task" *ngFor="let  task of onFilteredTruthy() | async">
                     <div>
                         <label class="label">
-                            <input [formControl]="isCheckbox" (change)="changeTaskCompleted(task)" type="checkbox"
+                            <input [formControl]="isCheckbox" (change)="taskCompleteService.changeTaskCompleted(task)"
+                                   type="checkbox"
                                    class="checkbox">
                             <span [ngClass]="{'completed': task.isCompleted,'not-completed': !task.isCompleted}"
                                   class="fake {{task.collectionTask}}"></span>
                             <span class="text">{{ task.description }}</span>
                         </label>
-                        <p class="endDate">{{task.endDate | customDate}}</p>
+                        <p class="endDate" *ngIf="task.endDate">{{task.endDate | customDate}}</p>
                     </div>
                     <app-edit-collection [task]="task"></app-edit-collection>
                 </div>
             </div>
-            <div class="completedTask" *ngIf="onFiltredFalsy() | async">
-                <h3>Completed - {{(onFiltredFalsy() | async)?.length}}</h3>
-                <div class="task" *ngFor="let  task of onFiltredFalsy() | async">
+            <div class="completedTask" *ngIf="onFilteredFalsy() | async">
+                <h3>Completed - {{(onFilteredFalsy() | async)?.length}}</h3>
+                <div class="task" *ngFor="let  task of onFilteredFalsy() | async">
                     <div>
                         <label class="label">
-                            <input [formControl]="isCheckbox" (change)="changeTaskCompleted(task)" type="checkbox"
+                            <input [formControl]="isCheckbox" (change)="taskCompleteService.changeTaskCompleted(task)"
+                                   type="checkbox"
                                    class="checkbox">
                             <span [ngClass]="{'completed': task.isCompleted,'not-completed': !task.isCompleted}"
                                   class="fake {{task.collectionTask}}"></span>
                             <span class="text-completed">{{ task.description }}</span>
                         </label>
-                        <p class="endDate">{{task.endDate | customDate}}</p>
+                        <p *ngIf="task.endDate" class="endDate">{{task.endDate | customDate}}</p>
                     </div>
                     <app-edit-collection [task]="task"></app-edit-collection>
                 </div>
             </div>
         </div>
         <div class="add-container">
-            <a (click)="openDialog()" class="navbar-item add">
+            <a (click)="modalService.openModal()" class="navbar-item add">
                 <mat-icon aria-hidden="false">add</mat-icon>
             </a>
         </div>

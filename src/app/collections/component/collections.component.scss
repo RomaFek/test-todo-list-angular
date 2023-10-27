@@ -1,16 +1,17 @@
 .container {
-
   width: 100%;
-  //height: calc(100vh - 70px);
   background-color: #181820;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  //align-content: center;
   align-items: center;
-  //flex-wrap: wrap;
-
 }
+
+//
+//.container {
+//  display: flex;
+//  flex-direction: column;
+//}
 
 .header {
   color: #f8f8f8;
@@ -109,13 +110,6 @@ mat-icon {
   padding: 10px 0 10px 20px;
 }
 
-.app-navbar-media {
-  display: none;
-}
-
-.app-navbar-main {
-  display: block;
-}
 
 .add-container {
   display: flex;
@@ -140,16 +134,14 @@ mat-icon {
 }
 
 @media screen and (max-width: 560px) {
-  .app-navbar-media {
-    display: block;
+  .container {
+    flex-direction: column-reverse
   }
-  .app-navbar-main {
-    display: none;
-  }
+
   .add-container {
     height: 160px;
   }
-  .container {
+  .content {
     width: 100%;
   }
   .add-collection {

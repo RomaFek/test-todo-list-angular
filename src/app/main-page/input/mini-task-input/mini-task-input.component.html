@@ -1,2 +1,2 @@
-<input [formControl]="isCheckbox" (change)="changeTaskCompleted(taskCol)" type="checkbox"
+<input [formControl]="isCheckbox" (change)="taskCompleteService.changeTaskCompleted(taskCol)" type="checkbox"
        class="checkbox">

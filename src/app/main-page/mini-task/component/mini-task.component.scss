@@ -1,4 +1,4 @@
-.container {
+.content {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,7 +27,7 @@ button {
 }
 
 @media screen and (max-width: 560px) {
-  .container {
+  .content {
     width: 300px;
   }
 }

@@ -1,44 +1,26 @@
-<app-navbar class="app-navbar-main"></app-navbar>
 <div class="container">
-    <app-sidenav *ngIf="sidenavVisible$ | async"></app-sidenav>
-    <div class="dashboard">
-        <div class="header">
-            <div class="header-top">
-                <h1>Dashboard</h1>
-                <a (click)="openProfile()" class="modal-image">
-                    <img id="image" src="assets/user_avatar1.png" alt="Аватар">
-                </a>
+    <app-navbar class="app-navbar-main"></app-navbar>
+    <div class="content">
+        <app-sidenav *ngIf="sidenavVisible$ | async"></app-sidenav>
+        <div class="dashboard">
+            <div class="header">
+                <div class="header-top">
+                    <h1>Dashboard</h1>
+                    <a (click)="modalService.openProfile();" class="modal-image">
+                        <img id="image" src="assets/user_avatar1.png" alt="Аватар">
+                    </a>
+                </div>
+                <p>{{ null | whatsTime }}, {{currentUser() | async}}</p>
             </div>
-            <p>{{ whatsTime() }}, {{currentUser() | async}}</p>
-        </div>
-        <div class="container-btn">
-            <div [ngClass]="{ hoverBtn: (!todayTaskVisible && !wastedTaskVisible) }" class="btn" (click)="showAll()">
-                all
+            <div class="container-btn">
+                <button class="btn" routerLinkActive="active-link" routerLink="/todo">all</button>
+                <button class="btn" routerLinkActive="active-link" routerLink="/today">today</button>
+                <button class="btn" routerLinkActive="active-link" routerLink="/wasted">wasted</button>
             </div>
-            <div [ngClass]="{ hoverBtn: (todayTaskVisible && !wastedTaskVisible) }" class="btn" (click)="today()">
-                today
-            </div>
-            <div [ngClass]="{ hoverBtn: (!todayTaskVisible && wastedTaskVisible) }" class="btn" (click)="wasted()">
-                wasted
-            </div>
-        </div>
-        <div class="card-container">
-            <ng-container *ngIf="!todayTaskVisible && !wastedTaskVisible">
-                <ng-container *ngFor="let collect of uniqCollect() | async">
-                    <app-card-task [arrCol]="collectionArr$(collect)"></app-card-task>
-                </ng-container>
-            </ng-container>
-            <ng-container *ngIf="todayTaskVisible && !wastedTaskVisible">
-                <ng-container *ngFor="let collect of todayTask$ | async">
-                    <app-card-today-task [arrCol]="collectionArr$(collect)"></app-card-today-task>
-                </ng-container>
-            </ng-container>
-            <ng-container *ngIf="wastedTaskVisible && !todayTaskVisible">
-                <ng-container *ngFor="let collect of wastedTask$ | async">
-                    <app-card-wasted-task [arrCol]="collectionArr$(collect)"></app-card-wasted-task>
-                </ng-container>
-            </ng-container>
+
+            <router-outlet></router-outlet>
+
         </div>
     </div>
 </div>
-<app-navbar class="app-navbar-media"></app-navbar>
+

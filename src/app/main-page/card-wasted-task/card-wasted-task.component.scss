@@ -1,11 +1,44 @@
-
 .container {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+  width: 1000px;
+  padding: 20px;
+  overflow: auto;
+  background-color: #181820;
+}
+
+
+.content {
   display: flex;
   width: 100%;
   height: calc(100vh - 70px);
   //flex-direction: column;
   //justify-content: space-evenly;
   //align-content: center;
+}
+
+.icon-container {
+  display: flex;
+
+  mat-icon {
+    color: white;
+    cursor: pointer;
+    margin: 0;
+  }
+}
+
+.card-container {
+  display: flex;
+  //flex-direction: column;
+  //align-items: stretch;
+  justify-content: space-between;
+}
+
+.card-container-left {
+  display: flex;
+  flex-direction: column;
 }
 
 .task-card {
@@ -99,14 +132,14 @@
   font-weight: bold;
 }
 
-.task-completed {
-  color: #fff;
-  font-weight: bold;
-
-  &.completed {
-    color: green;
-  }
-}
+//.task-completed {
+//  color: #fff;
+//  font-weight: bold;
+//
+//  &.completed {
+//    color: green;
+//  }
+//}
 
 
 mat-icon {
@@ -159,14 +192,19 @@ mat-icon {
 
 .fake {
   display: inline-block;
+  color: #21212b;
   width: 17px;
   height: 17px;
   margin: 10px;
   border-radius: 7px;
   position: relative;
-  color: #21212b;
   cursor: pointer;
   border: 2px solid white;
+}
+
+.current {
+  color: #c05354;
+  font-size: 12px;
 }
 
 .completed::before {
@@ -351,20 +389,165 @@ mat-icon {
   }
 }
 
-.card-container {
-  display: flex;
-  //flex-direction: column;
-  justify-content: space-between;
-}
-
-.card-container-left {
-  display: flex;
-  flex-direction: column;
-}
-
 #drag {
   cursor: grab;
   color: white;
+}
+
+.fake.completed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  content: "✓";
+  color: #21212b;
+  font-size: 16px;
+  //padding-left: 3px;
+  //position: absolute;
+  //display: block;
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  //top: 50%;
+  //left: 50%;
+  //transform: translate(-50%, -50%);
+  //opacity: 0;
+  transition: .2s;
+}
+
+.fake.work.completed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fc76a1;
+  content: "✓";
+  color: #21212b;
+  font-size: 16px;
+  //padding-left: 3px;
+  //position: absolute;
+  //display: block;
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  //top: 50%;
+  //left: 50%;
+  //transform: translate(-50%, -50%);
+  //opacity: 0;
+  transition: .2s;
+}
+
+.fake.person.completed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #a96bda;
+  content: "✓";
+  color: #21212b;
+  font-size: 16px;
+  //padding-left: 3px;
+  //position: absolute;
+  //display: block;
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  //top: 50%;
+  //left: 50%;
+  //transform: translate(-50%, -50%);
+  //opacity: 0;
+  transition: .2s;
+}
+
+.fake.payments.completed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #70c4bf;
+  content: "✓";
+  color: #21212b;
+  font-size: 16px;
+  //padding-left: 3px;
+  //position: absolute;
+  //display: block;
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  //top: 50%;
+  //left: 50%;
+  //transform: translate(-50%, -50%);
+  //opacity: 0;
+  transition: .2s;
+}
+
+.fake.groups.completed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #795548;
+  content: "✓";
+  color: #21212b;
+  font-size: 16px;
+  //padding-left: 3px;
+  //position: absolute;
+  //display: block;
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  //top: 50%;
+  //left: 50%;
+  //transform: translate(-50%, -50%);
+  //opacity: 0;
+  transition: .2s;
+}
+
+.fake.pets.completed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3380cb;
+  content: "✓";
+  color: #21212b;
+  font-size: 16px;
+  //padding-left: 3px;
+  //position: absolute;
+  //display: block;
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  //top: 50%;
+  //left: 50%;
+  //transform: translate(-50%, -50%);
+  //opacity: 0;
+  transition: .2s;
+}
+
+.fake.medication.completed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffeb3b;
+  content: "✓";
+  color: #21212b;
+  font-size: 16px;
+  //padding-left: 3px;
+  //position: absolute;
+  //display: block;
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  //top: 50%;
+  //left: 50%;
+  //transform: translate(-50%, -50%);
+  //opacity: 0;
+  transition: .2s;
+}
+
+.text.completed {
+  text-decoration: line-through;
+}
+
+.mini-task {
+  margin-left: 25px;
+  margin-bottom: 12px;
 }
 
 @media screen and (max-width: 510px) {
@@ -386,3 +569,5 @@ mat-icon {
     }
   }
 }
+
+

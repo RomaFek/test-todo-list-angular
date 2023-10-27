@@ -4,11 +4,8 @@
         <h1>Member Login</h1>
         <form class="form" [formGroup]="loginGroup" (ngSubmit)="onSubmit($event)">
             <input type="text" id="input-login" placeholder="Your Login" [formControl]="loginGroup.controls.login">
-            <p *ngIf="submitted && loginGroup.controls.login.hasError('minlength')" class="error-message">
-                Username must be at least 3 characters long.
-            </p>
-            <p *ngIf="submitted && loginGroup.controls.login.hasError('required')" class="error-message">
-                This field is required
+            <p *ngIf="checkValidService.getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
+                {{ checkValidService.getErrorMessage(submitted, loginGroup.controls.login) }}
             </p>
             <div class="password-input">
                 <input id="input-password" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
@@ -17,17 +14,15 @@
                     <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
                 </a>
             </div>
-            <p *ngIf="submitted && loginGroup.controls.password.hasError('minlength')" class="error-message">
-                Username must be at least 3 characters long.
+            <p *ngIf="checkValidService.getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
+                {{ checkValidService.getErrorMessage(submitted, loginGroup.controls.login) }}
             </p>
-            <p *ngIf="submitted && loginGroup.controls.password.hasError('required')" class="error-message">
-                This field is required
-            </p>
+
             <div>
                 <button class="btn" type="submit">LOGIN</button>
             </div>
         </form>
-        <a routerLink="/registration">I don't have an account</a>
+        <a routerLink="/registration" class="link">I don't have an account</a>
     </div>
 </div>
 

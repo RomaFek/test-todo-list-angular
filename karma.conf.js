@@ -12,11 +12,6 @@ module.exports = function (config) {
         client: {
             clearContext: false
         },
-        coverageIstanbulReporter: {
-            dir: require('path').join(__dirname, './coverage/todoLIST'),
-            reports: ['html', 'lcovonly', 'text-summary'],
-            fixWebpackSourcePaths: true
-        },
         coverageReporter: {
             dir: require('path').join(__dirname, './coverage/todoLIST'),
             subdir: '.',

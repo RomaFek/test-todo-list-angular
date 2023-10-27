@@ -1,32 +1,28 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {NavbarService} from "../services/navbar.service";
-import {Observable, take} from "rxjs";
-import {ModalService} from "../../add-task/services/modal.service";
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { NavbarService } from '../services/navbar.service';
+import { Observable, take } from 'rxjs';
+import { ModalService } from '../../add-task/services/modal.service';
 
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent implements OnInit {
-    public sidenavVisible$!: Observable<boolean>
-    public lighting$!: Observable<boolean>
-    public menuVisible$!: Observable<boolean>
-
+    public sidenavVisible$!: Observable<boolean>;
+    public lighting$!: Observable<boolean>;
+    public menuVisible$!: Observable<boolean>;
 
     constructor(
         public navbarService: NavbarService,
-        private modalService: ModalService,
-    ) {
-
-    }
-
+        public modalService: ModalService,
+    ) {}
 
     public ngOnInit() {
-        this.sidenavVisible$ = this.navbarService.sidenavVisible$
-        this.lighting$ = this.navbarService.btnLighting$
-        this.menuVisible$ = this.navbarService.menuVisible$
+        this.sidenavVisible$ = this.navbarService.sidenavVisible$;
+        this.lighting$ = this.navbarService.btnLighting$;
+        this.menuVisible$ = this.navbarService.menuVisible$;
     }
 
     public toggleSidenav() {
@@ -38,14 +34,4 @@ export class NavbarComponent implements OnInit {
             }
         });
     }
-
-
-    public openDialog(): void {
-        this.modalService.openModal();
-    }
-
-    public openProfile() {
-        this.modalService.openProfile();
-    }
 }
-

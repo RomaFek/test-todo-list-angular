@@ -94,8 +94,12 @@ h1 {
   color: #c82828;
 }
 
+.link {
+  color: #7f7f7f;
+}
+
 @media screen and (max-width: 660px) {
-  .container {
+  .content {
     border-radius: 25px;
     width: 300px;
     height: 300px;

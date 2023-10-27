@@ -1,7 +1,12 @@
-.container {
+.content {
   display: flex;
   width: 100%;
   min-height: calc(100vh - 70px);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard {
@@ -45,42 +50,34 @@
   border: 2px solid #272732;
   cursor: pointer;
   margin: 10px;
+  background-color: #181820;
 
   &:hover {
     background-color: #272732;
   }
 }
 
-.hoverBtn {
+.active-link {
   background-color: #272732;
 }
 
-.app-navbar-main {
-  display: block;
-}
-
-.app-navbar-media {
-  display: none;
-}
 
 .modal-image {
   display: none;
 }
 
 .card-container {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  flex-wrap: wrap;
-  max-width: 1000px;
+  //display: flex;
+  //justify-content: center;
+  //align-items: stretch;
+  //flex-wrap: wrap;
+  //width: 1000px;
 }
 
 @media screen and (max-width: 560px) {
-  .app-navbar-main {
-    display: none;
-  }
-  .app-navbar-media {
-    display: block;
+
+  .container {
+    flex-direction: column-reverse
   }
   .card-container {
     display: flex;

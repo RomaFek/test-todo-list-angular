@@ -15,10 +15,10 @@
                 <p>Collections</p></a>
         </div>
         <div class="navbar-end">
-            <a (click)="openDialog()" class="navbar-item add">
+            <a (click)="modalService.openModal();" class="navbar-item add">
                 <mat-icon aria-hidden="false">add</mat-icon>
             </a>
-            <a (click)="openProfile()" id="image" class="navbar-item">
+            <a (click)="modalService.openProfile()" id="image" class="navbar-item">
                 <img src="assets/user_avatar1.png" alt="Аватар">
             </a>
         </div>
