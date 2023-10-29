@@ -1,55 +1,128 @@
 import { Injectable } from '@angular/core';
-import { filter, map, Observable } from 'rxjs';
-import { DateFormatService } from '../../dashboard/services/date-format.service';
+import { filter, map, Observable, of, switchMap } from 'rxjs';
 import { ITask } from '../../../add-task/models/task-model';
+import { isBefore, isToday, parseISO } from 'date-fns';
+import { CopyBDService } from '../../dashboard/services/copy-bd.service';
+import { UniqCollectService } from '../../dashboard/services/uniq-collect.service';
+import { IndexedDBService } from '../../../service/indexed-db.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CheckCompleteService {
-    private DateNow: Date = new Date();
+    constructor(
+        private copyBDService: CopyBDService,
+        private uniqCollectService: UniqCollectService,
+        private indexedDBService: IndexedDBService,
+    ) {}
 
-    constructor(private dateFormatService: DateFormatService) {}
-
-    // public isNotCompletedColl(arrCol: Observable<ITask[] | null | undefined>) {
-    //     return arrCol.pipe(
-    //         map((el) => (el ? el.filter((task) => !task.isCompleted) : [])),
-    //         filter((el) => el.length > 0),
-    //     );
-    // }
-
-    public isNotCompletedCollWasted(arrCol: Observable<ITask[] | null>) {
-        return arrCol.pipe(
-            map((el) => (el ? el.filter((task) => !task.isCompleted) : [])),
-            filter((el) => el.length > 0),
-            map((el) =>
-                el.filter((el) => {
-                    const endDate = el.endDate?.slice(0, 10);
-                    return (
-                        endDate &&
-                        this.dateFormatService.convertor(endDate) <
-                            this.dateFormatService.formatWastedDate(
-                                this.DateNow,
-                            )
-                    );
-                }),
-            ),
-        );
-    }
-
-    public isNotCompletedCollToday(
-        arrCol: Observable<ITask[] | null | undefined>,
-    ): Observable<ITask[] | null> {
-        return arrCol.pipe(
-            map((el) => (el ? el.filter((task) => !task.isCompleted) : [])),
-            filter((el) => el.length > 0),
-            map((el) =>
-                el.filter(
-                    (el) =>
-                        el.endDate?.slice(0, 10) ===
-                        this.dateFormatService.formatDate(this.DateNow),
+    public wastedTaskCollectionsString$: Observable<
+        (string | null | undefined)[]
+    > = this.indexedDBService
+        .initDBTasks()
+        .pipe(
+            switchMap((tasks) =>
+                this.filterAndTransformTasksWasted(tasks).pipe(
+                    map((el) => Array.from(new Set(el))),
                 ),
             ),
         );
+
+    public isNotCompletedTasksWasted$(
+        arrCol: Observable<ITask[] | null>,
+    ): Observable<ITask[] | null> {
+        return arrCol.pipe(
+            map((el) => el || []),
+            map((el) => el.filter((task) => !task.isCompleted)),
+            filter((el) => el.length > 0),
+            map((el) => el.filter((task) => this.isTaskWasted(task))),
+        );
+    }
+
+    public arrayObjCollectionsWasted$() {
+        return this.uniqCollectService.arrayObjCollectionsNotCompleted$().pipe(
+            map((collections) => {
+                return collections
+                    .map((collection) => ({
+                        collection: collection.collection,
+                        tasks: collection.tasks.filter((task) =>
+                            this.isTaskWasted(task),
+                        ),
+                    }))
+                    .filter((collection) => collection.tasks.length > 0);
+            }),
+        );
+    }
+
+    private filterAndTransformTasksWasted(
+        tasks: ITask[] | null,
+    ): Observable<(string | null | undefined)[]> {
+        return of(tasks || []).pipe(
+            map((el) => el || []),
+            map((el) => el.filter((task) => !task.isCompleted)),
+            map((el) => el.filter((task) => this.isTaskWasted(task))),
+            map((el) => el.map((task) => task.collectionTask)),
+        );
+    }
+
+    private isTaskWasted(task: ITask): boolean {
+        if (!task.endDate) return false;
+        const endDate = parseISO(task.endDate);
+        const currentDate = new Date();
+        return isBefore(endDate, currentDate);
+    }
+
+    public isNotCompletedTasksToday$(
+        arrCol: Observable<ITask[] | null | undefined>,
+    ): Observable<ITask[] | null> {
+        return arrCol.pipe(
+            map((el) => el || []),
+            map((el) => el.filter((task) => !task.isCompleted)),
+            filter((el) => el.length > 0),
+            map((el) => el.filter((task) => this.isTaskDueToday(task))),
+        );
+    }
+
+    public todayTaskCollectionsString$: Observable<
+        (string | null | undefined)[]
+    > = this.indexedDBService
+        .initDBTasks()
+        .pipe(
+            switchMap((tasks) =>
+                this.filterAndTransformTasksToday(tasks).pipe(
+                    map((el) => Array.from(new Set(el))),
+                ),
+            ),
+        );
+
+    public arrayObjCollectionToday$() {
+        return this.uniqCollectService.arrayObjCollectionsNotCompleted$().pipe(
+            map((collections) => {
+                const currentDate = new Date();
+                return collections
+                    .map((collection) => ({
+                        collection: collection.collection,
+                        tasks: collection.tasks.filter((task) =>
+                            this.isTaskDueToday(task),
+                        ),
+                    }))
+                    .filter((collection) => collection.tasks.length > 0);
+            }),
+        );
+    }
+
+    private filterAndTransformTasksToday(
+        tasks: ITask[] | null,
+    ): Observable<(string | null | undefined)[]> {
+        return of(tasks || []).pipe(
+            map((el) => el.filter((task) => this.isTaskDueToday(task))),
+            map((el) => el.map((task) => task.collectionTask)),
+        );
+    }
+
+    private isTaskDueToday(task: ITask): boolean {
+        if (!task.endDate) return false;
+        const taskEndDate = new Date(task.endDate);
+        return isToday(taskEndDate);
     }
 }

@@ -15,8 +15,8 @@ export class NavbarComponent implements OnInit {
     public menuVisible$!: Observable<boolean>;
 
     constructor(
-        public navbarService: NavbarService,
-        public modalService: ModalService,
+        private navbarService: NavbarService,
+        private modalService: ModalService,
     ) {}
 
     public ngOnInit() {
@@ -33,5 +33,13 @@ export class NavbarComponent implements OnInit {
                 this.navbarService.openSidenav();
             }
         });
+    }
+
+    public openModal(): void {
+        this.modalService.openModal();
+    }
+
+    public openProfile() {
+        this.modalService.openProfile();
     }
 }

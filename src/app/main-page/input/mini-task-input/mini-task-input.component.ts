@@ -1,12 +1,9 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    OnInit,
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { TaskCompleteService } from '../../card-task/service/task-complete.service';
-import { IMiniTask } from '../../mini-task/models/mini-task-model';
+import {ChangeDetectionStrategy, Component, Input, OnInit,} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {TaskCompleteService} from '../../card-task/service/task-complete.service';
+import {ITask} from '../../../add-task/models/task-model';
+
+// import { IMiniTask } from '../../mini-task/models/mini-task-model';
 
 @Component({
     selector: 'app-mini-task-input',
@@ -16,7 +13,7 @@ import { IMiniTask } from '../../mini-task/models/mini-task-model';
 })
 export class MiniTaskInputComponent implements OnInit {
     @Input()
-    public taskCol!: IMiniTask;
+    public taskCol!: ITask;
     public isCheckbox!: FormControl<boolean>;
 
     constructor(public taskCompleteService: TaskCompleteService) {}

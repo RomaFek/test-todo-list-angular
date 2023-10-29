@@ -1,0 +1,14 @@
+<div class="task" *ngFor="let  task of tasks">
+    <div>
+        <label class="label">
+            <input [formControl]="isCheckbox" (change)="changeTaskCompleted(task)"
+                   type="checkbox"
+                   class="checkbox">
+            <span [ngClass]="{'completed': task.isCompleted,'not-completed': !task.isCompleted}"
+                  [class]="'fake ' + task.collectionTask"></span>
+            <span class="text">{{ task.description }}</span>
+        </label>
+        <p class="endDate" *ngIf="task.endDate">{{task.endDate | customDate}}</p>
+    </div>
+    <app-edit-collection [task]="task"></app-edit-collection>
+</div>

@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { NavbarService } from '../../../navbar/services/navbar.service';
-import { CopyBDService } from '../services/copy-bd.service';
 import { ModalService } from '../../../add-task/services/modal.service';
+import { UserContextService } from '../../../auth/service/user-context.service';
+import { IndexedDBService } from '../../../service/indexed-db.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -12,33 +13,25 @@ import { ModalService } from '../../../add-task/services/modal.service';
 })
 export class DashboardComponent implements OnInit {
     public sidenavVisible$!: Observable<boolean>;
-    private authenticatedUserSubject: BehaviorSubject<string> =
-        new BehaviorSubject<string>('');
+    public date = new Date();
 
     constructor(
         private navbarService: NavbarService,
-        public copyBDService: CopyBDService,
-        public modalService: ModalService,
-    ) {
-        const user = this.authenticatedUser();
-        if (user) {
-            this.authenticatedUserSubject.next(user);
-        }
-    }
+        private userContextService: UserContextService,
+        private modalService: ModalService,
+        private indexedDBService: IndexedDBService,
+    ) {}
 
     public ngOnInit() {
         this.sidenavVisible$ = this.navbarService.sidenavVisible$;
         this.navbarService.openMenu();
     }
 
-    public currentUser(): Observable<string> {
-        return this.authenticatedUserSubject.asObservable();
+    public currentUser$(): Observable<string> {
+        return this.userContextService.authenticatedUser$;
     }
 
-    public authenticatedUser() {
-        let user = sessionStorage.getItem('authenticatedUser');
-        if (user) {
-            return JSON.parse(user);
-        }
+    public openProfile() {
+        this.modalService.openProfile();
     }
 }

@@ -5,13 +5,13 @@
         <form class="form" [formGroup]="loginGroup" (ngSubmit)="onSubmit($event)">
             <input type="text" placeholder="Your Username" id="input-username" class="input"
                    [formControl]="loginGroup.controls.username">
-            <p *ngIf="checkValidService.getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
-                {{ checkValidService.getErrorMessage(submitted, loginGroup.controls.login) }}
+            <p *ngIf="getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
+                {{ getErrorMessage(submitted, loginGroup.controls.login) }}
             </p>
             <input type="text" id="input-login" class="input" placeholder="Your Login"
                    [formControl]="loginGroup.controls.login">
-            <p *ngIf="checkValidService.getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
-                {{ checkValidService.getErrorMessage(submitted, loginGroup.controls.login) }}
+            <p *ngIf="getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
+                {{ getErrorMessage(submitted, loginGroup.controls.login) }}
             </p>
             <div class="password-input">
                 <input id="input-password" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
@@ -20,13 +20,12 @@
                     <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
                 </a>
             </div>
-            <p *ngIf="checkValidService.getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
-                {{ checkValidService.getErrorMessage(submitted, loginGroup.controls.login) }}
+            <p *ngIf="getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
+                {{ getErrorMessage(submitted, loginGroup.controls.login) }}
             </p>
             <div>
                 <button class="btn" type="submit">REGISTER</button>
             </div>
-            <!--        <p *ngIf="notUser">Проверьте правильность введенных данных</p>-->
         </form>
         <a routerLink="/authorization" class="link">I have an account</a>
     </div>

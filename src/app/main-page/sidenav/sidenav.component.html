@@ -3,13 +3,11 @@
         <div class="header">
             <h1>Collections</h1>
         </div>
-        <div *ngIf="yourTask$ | async as tasks">
-            <a *ngFor="let collection of uniqCollectionService.getUniqueCollections(tasks)"
-               routerLink="/collections/{{collection}}"
-               class="navbar-item">
-                <mat-icon [class]="collection">{{ collection }}</mat-icon>
-                {{ collection }}
-            </a>
-        </div>
+        <a *ngFor="let collection of getUniqueCollections() | async"
+           routerLink="/collections/{{collection}}"
+           class="navbar-item">
+            <mat-icon [class]="collection">{{ collection }}</mat-icon>
+            {{ collection }}
+        </a>
     </div>
 </div>

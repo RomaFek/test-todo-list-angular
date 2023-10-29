@@ -4,9 +4,8 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'whatsTime',
 })
 export class WhatsTimePipe implements PipeTransform {
-    transform(value: null): string {
-        const now = new Date();
-        const hours = now.getHours();
+    transform(value: Date): string {
+        const hours = value.getHours();
 
         let greeting: string;
 

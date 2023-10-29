@@ -1,6 +1,7 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
+import { format, isToday } from 'date-fns';
 
-@Pipe({name: 'customDate'})
+@Pipe({ name: 'customDate' })
 export class CustomDatePipe implements PipeTransform {
     transform(value: string | null): string {
         if (value === null) {
@@ -8,32 +9,14 @@ export class CustomDatePipe implements PipeTransform {
         }
 
         const date = new Date(value);
+        const now = new Date();
 
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0);
-
-        if (date >= today && date < tomorrow) {
-            return `Today ${formatTime(date)}`;
-        } else if (date >= tomorrow) {
-            return `${formatDate(date)} ${formatTime(date)}`;
+        if (isToday(date)) {
+            return `Today ${format(date, 'HH:mm')}`;
+        } else if (date > now) {
+            return `${format(date, 'dd.MM HH:mm')}`;
         } else {
             return 'WASTED';
         }
     }
-}
-
-function formatTime(date: Date): string {
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
-}
-
-function formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    return `${day}.${month}`;
 }

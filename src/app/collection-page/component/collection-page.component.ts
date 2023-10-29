@@ -4,10 +4,9 @@ import { map, Observable, takeUntil } from 'rxjs';
 import { CopyBDService } from '../../main-page/dashboard/services/copy-bd.service';
 import { NavbarService } from '../../navbar/services/navbar.service';
 import { ITask } from '../../add-task/models/task-model';
-import { FormControl } from '@angular/forms';
 import { DestroyService } from '../../shared/destroy.service';
-import { TaskCompleteService } from '../../main-page/card-task/service/task-complete.service';
 import { ModalService } from '../../add-task/services/modal.service';
+import { IndexedDBService } from '../../service/indexed-db.service';
 
 @Component({
     selector: 'app-collection-page',
@@ -19,18 +18,15 @@ import { ModalService } from '../../add-task/services/modal.service';
 export class CollectionPageComponent implements OnInit {
     public collection!: string;
     public sidenavVisible$!: Observable<boolean>;
-    public isCheckbox: FormControl<boolean>;
 
     constructor(
         private route: ActivatedRoute,
         private navbarService: NavbarService,
         private copyBDService: CopyBDService,
-        public taskCompleteService: TaskCompleteService,
         private destroy$: DestroyService,
-        public modalService: ModalService,
-    ) {
-        this.isCheckbox = new FormControl(true, { nonNullable: true });
-    }
+        private modalService: ModalService,
+        private indexedDBService: IndexedDBService,
+    ) {}
 
     public ngOnInit() {
         this.sidenavVisible$ = this.navbarService.sidenavVisible$;
@@ -46,7 +42,7 @@ export class CollectionPageComponent implements OnInit {
     }
 
     public onFilteredTruthy(): Observable<ITask[]> {
-        return this.copyBDService.allTasks.pipe(
+        return this.indexedDBService.initDBTasks().pipe(
             map((el) =>
                 el.filter((el) => el.collectionTask === this.collection),
             ),
@@ -55,7 +51,7 @@ export class CollectionPageComponent implements OnInit {
     }
 
     public onFilteredFalsy(): Observable<ITask[]> {
-        return this.copyBDService.allTasks.pipe(
+        return this.indexedDBService.initDBTasks().pipe(
             map((el) =>
                 el.filter((el) => el.collectionTask === this.collection),
             ),
@@ -65,5 +61,9 @@ export class CollectionPageComponent implements OnInit {
 
     public goBack() {
         window.history.back();
+    }
+
+    public openModal() {
+        this.modalService.openModal();
     }
 }

@@ -26,15 +26,15 @@ import { EditCollectionComponent } from './collection-page/edit-collection/edit-
 import { AddCollectModalComponent } from './collections/add-collect-modal/component/add-collect-modal.component';
 import { AddCollectionInterceptor } from './interceptors/add-collection.interceptor';
 import { MiniTaskComponent } from './main-page/mini-task/component/mini-task.component';
-import { AddMiniTaskInterceptor } from './interceptors/add-mini-task.interceptor';
+// import { AddMiniTaskInterceptor } from './interceptors/add-mini-task.interceptor';
 import { MiniTaskInputComponent } from './main-page/input/mini-task-input/mini-task-input.component';
 import { ErrorModalComponent } from './error-modal/error-modal.component';
-import { environment } from '../enviroment';
 import { WhatsTimePipe } from './main-page/dashboard/pipe/whats-time.pipe';
 import { CurrentTaskPipe } from './main-page/dashboard/pipe/current-task.pipe';
 import { CardTaskComponent } from './main-page/card-task/component/card-task.component';
-import { CardTodayTaskComponent } from './main-page/card-today-task/card-today-task.component';
-import { CardWastedTaskComponent } from './main-page/card-wasted-task/card-wasted-task.component';
+import { TaskBoardComponent } from './collection-page/task-board/task-board.component';
+import { CardBodyComponent } from './main-page/card-task/card-body/card-body.component';
+import { BackofficeComponent } from './backoffice/backoffice.component';
 
 @NgModule({
     declarations: [
@@ -50,8 +50,6 @@ import { CardWastedTaskComponent } from './main-page/card-wasted-task/card-waste
         InputComponent,
         AuthComponent,
         RegistrationComponent,
-        CardTodayTaskComponent,
-        CardWastedTaskComponent,
         ProfileComponent,
         EditCollectionComponent,
         AddCollectModalComponent,
@@ -60,6 +58,9 @@ import { CardWastedTaskComponent } from './main-page/card-wasted-task/card-waste
         ErrorModalComponent,
         WhatsTimePipe,
         CurrentTaskPipe,
+        TaskBoardComponent,
+        CardBodyComponent,
+        BackofficeComponent,
     ],
     imports: [
         BrowserModule,
@@ -73,26 +74,6 @@ import { CardWastedTaskComponent } from './main-page/card-wasted-task/card-waste
         FormsModule,
     ],
     providers: [
-        {
-            provide: 'nameDbTasks',
-            useValue: environment.nameDbTasks,
-        },
-        {
-            provide: 'nameDbSubTasks',
-            useValue: environment.nameDbSubTasks,
-        },
-        {
-            provide: 'nameDbCollections',
-            useValue: environment.nameDbCollections,
-        },
-        {
-            provide: 'nameDbUsers',
-            useValue: environment.nameDbUsers,
-        },
-        {
-            provide: 'versionDB',
-            useValue: environment.versionDB,
-        },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AddTaskInterceptor,
@@ -108,11 +89,11 @@ import { CardWastedTaskComponent } from './main-page/card-wasted-task/card-waste
             useClass: AddCollectionInterceptor,
             multi: true,
         },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: AddMiniTaskInterceptor,
-            multi: true,
-        },
+        // {
+        //     provide: HTTP_INTERCEPTORS,
+        //     useClass: AddMiniTaskInterceptor,
+        //     multi: true,
+        // },
     ],
     bootstrap: [AppComponent],
 })

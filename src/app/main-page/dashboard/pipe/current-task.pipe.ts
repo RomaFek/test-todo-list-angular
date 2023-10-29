@@ -1,11 +1,13 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { IMiniTask } from '../../mini-task/models/mini-task-model';
+import {Pipe, PipeTransform} from '@angular/core';
+import {ITask} from '../../../add-task/models/task-model';
+
+// import { IMiniTask } from '../../mini-task/models/mini-task-model';
 
 @Pipe({
     name: 'currentTask',
 })
 export class CurrentTaskPipe implements PipeTransform {
-    transform(value: IMiniTask[]): string {
+    transform(value: ITask[]): string {
         if (value.length === 0) {
             return '';
         }

@@ -1,83 +1,97 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { map } from 'rxjs';
 import { CopyBDService } from './copy-bd.service';
-import { DateFormatService } from './date-format.service';
+import { IndexedDBService } from '../../../service/indexed-db.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class UniqCollectService {
-    private date = new Date();
-
+export class UniqCollectService implements OnInit {
+    // allTaskSubject$: BehaviorSubject<ITask[]> = new BehaviorSubject<ITask[]>(
+    //     [],
+    // );
     constructor(
         private copyBDService: CopyBDService,
-        private dateFormatService: DateFormatService,
+        private indexedDBService: IndexedDBService,
     ) {}
 
-    public uniqCollect() {
-        return this.copyBDService.allTasks.pipe(
+    ngOnInit() {}
+
+    private getTasks() {
+        return this.indexedDBService.initDBTasks();
+    }
+
+    private uniqueObjectTasksInCollection() {
+        // if (this.copyBDService.allTaskSubject$.value.length === 0) {
+        //     console.log(123123123);
+        //     this.getTasks()
+        //         .pipe(
+        //             tap((v) => console.log(v, '----')),
+        //             take(1),
+        //         )
+        //         .subscribe((tasks: ITask[]) => {
+        //             this.copyBDService.allTaskSubject$.next(tasks);
+        //         });
+        // }
+        console.log(7777);
+        return this.indexedDBService.initDBTasks().pipe(
             map((tasks) => {
-                const uniqueCollections = [
-                    ...new Set(tasks.map((task) => task.collectionTask)),
-                ];
-                return uniqueCollections.map((col) => ({
-                    collection: col,
-                    tasks: tasks.filter((task) => task.collectionTask === col),
-                }));
+                const uniqueCollections = Array.from(
+                    new Set(tasks.map((task) => task.collectionTask)),
+                );
+                return uniqueCollections
+                    .filter((el) => el !== undefined)
+                    .map((collectionsString) => ({
+                        collection: collectionsString,
+                        tasks: tasks.filter(
+                            (task) => task.collectionTask === collectionsString,
+                        ),
+                    }));
             }),
         );
     }
 
-    public arrayCollect$() {
-        return this.uniqCollect().pipe(
+    // private uniqueObjectTasksInCollection() {
+    //     if (this.copyBDService.allTaskSubject$.value.length === 0) {
+    //         console.log(123123123);
+    //         return this.getTasks().pipe(
+    //             tap((v) => console.log(v, '----')),
+    //             take(1),
+    //             switchMap((tasks: ITask[]) => {
+    //                 this.copyBDService.allTaskSubject$.next(tasks);
+    //                 return this.indexedDBService.initDBTasks();
+    //             }),
+    //         );
+    //     }
+    //     return this.indexedDBService.initDBTasks().pipe(
+    //         map((tasks) => {
+    //             const uniqueCollections = Array.from(
+    //                 new Set(tasks.map((task) => task.collectionTask)),
+    //             );
+    //             return uniqueCollections.map((collectionsString) => ({
+    //                 collection: collectionsString,
+    //                 tasks: tasks.filter(
+    //                     (task) => task.collectionTask === collectionsString,
+    //                 ),
+    //             }));
+    //         }),
+    //     );
+    // }
+
+    public arrayObjCollectionsNotCompleted$() {
+        console.log(9999);
+        return this.uniqueObjectTasksInCollection().pipe(
             map((uniqueCollections) => {
                 return uniqueCollections
-                    .map((collection) => ({
-                        collection: collection.collection,
-                        tasks: collection.tasks.filter(
+                    .map((collectionObj) => ({
+                        collection: collectionObj.collection,
+                        tasks: collectionObj.tasks.filter(
                             (task) => !task.isCompleted,
                         ),
                     }))
-                    .filter((collection) => collection.tasks.length > 0);
-            }),
-        );
-    }
-
-    public arrayCollectToday$() {
-        return this.arrayCollect$().pipe(
-            map((collections) => {
-                return collections
-                    .map((collection) => ({
-                        collection: collection.collection,
-                        tasks: collection.tasks.filter(
-                            (task) =>
-                                task.endDate?.slice(0, 10) ===
-                                this.dateFormatService.formatDate(this.date),
-                        ),
-                    }))
-                    .filter((collection) => collection.tasks.length > 0);
-            }),
-        );
-    }
-
-    public arrayCollectWasted$() {
-        return this.arrayCollect$().pipe(
-            map((collections) => {
-                return collections
-                    .map((collection) => ({
-                        collection: collection.collection,
-                        tasks: collection.tasks.filter((task) => {
-                            const endDate = task.endDate?.slice(0, 10);
-                            return (
-                                endDate &&
-                                this.dateFormatService.convertor(endDate) <
-                                    this.dateFormatService.formatWastedDate(
-                                        this.date,
-                                    )
-                            );
-                        }),
-                    }))
-                    .filter((collection) => collection.tasks.length > 0);
+                    .filter(
+                        (allCollectionObj) => allCollectionObj.tasks.length > 0,
+                    );
             }),
         );
     }

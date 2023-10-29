@@ -4,8 +4,8 @@
         <h1>Member Login</h1>
         <form class="form" [formGroup]="loginGroup" (ngSubmit)="onSubmit($event)">
             <input type="text" id="input-login" placeholder="Your Login" [formControl]="loginGroup.controls.login">
-            <p *ngIf="checkValidService.getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
-                {{ checkValidService.getErrorMessage(submitted, loginGroup.controls.login) }}
+            <p *ngIf="getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
+                {{ getErrorMessage(submitted, loginGroup.controls.login) }}
             </p>
             <div class="password-input">
                 <input id="input-password" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
@@ -14,8 +14,8 @@
                     <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
                 </a>
             </div>
-            <p *ngIf="checkValidService.getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
-                {{ checkValidService.getErrorMessage(submitted, loginGroup.controls.login) }}
+            <p *ngIf="getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
+                {{ getErrorMessage(submitted, loginGroup.controls.login) }}
             </p>
 
             <div>

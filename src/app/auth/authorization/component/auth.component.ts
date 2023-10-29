@@ -5,6 +5,7 @@ import { AuthService } from '../../service/auth.service';
 import { DestroyService } from '../../../shared/destroy.service';
 import { takeUntil } from 'rxjs';
 import { CheckValidService } from '../../service/check-valid.service';
+import { IndexedDBService } from '../../../service/indexed-db.service';
 
 @Component({
     selector: 'app-auth',
@@ -25,7 +26,8 @@ export class AuthComponent {
         private router: Router,
         private authService: AuthService,
         private destroy$: DestroyService,
-        public checkValidService: CheckValidService,
+        private checkValidService: CheckValidService,
+        private indexedDBService: IndexedDBService,
     ) {
         this._createForm();
     }
@@ -47,7 +49,7 @@ export class AuthComponent {
         if (this.authService) {
             const loginValue = this.loginGroup.controls.login.value;
             if (loginValue) {
-                this.authService
+                this.indexedDBService
                     .loginUser(loginValue)
                     ?.pipe(takeUntil(this.destroy$))
                     .subscribe((user) => {
@@ -58,5 +60,9 @@ export class AuthComponent {
                     });
             }
         }
+    }
+
+    public getErrorMessage(submitted: boolean, controls: FormControl) {
+        return this.checkValidService.getErrorMessage(submitted, controls);
     }
 }

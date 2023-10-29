@@ -1,14 +1,18 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { CopyBDService } from '../../dashboard/services/copy-bd.service';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { IndexedDBService } from '../../../service/indexed-db.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class DragNDropService extends Subject<void> implements OnDestroy {
-    constructor(private copyBDService: CopyBDService) {
-        super();
-    }
+export class DragNDropService implements OnDestroy {
+    private destroy$: Subject<void> = new Subject();
+
+    constructor(
+        private copyBDService: CopyBDService,
+        private indexedDBService: IndexedDBService,
+    ) {}
 
     public onDragStart(event: DragEvent, coll: any) {
         if (event.dataTransfer)
@@ -20,7 +24,10 @@ export class DragNDropService extends Subject<void> implements OnDestroy {
         if (coll && event.dataTransfer) {
             const data = JSON.parse(event.dataTransfer.getData('text/plain'));
             const updateData = { ...data, collectionTask: coll };
-            this.copyBDService.updateTask(updateData).subscribe();
+            this.indexedDBService
+                .updateTask(updateData)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe();
         }
     }
 
@@ -29,7 +36,7 @@ export class DragNDropService extends Subject<void> implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.next();
-        this.complete();
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

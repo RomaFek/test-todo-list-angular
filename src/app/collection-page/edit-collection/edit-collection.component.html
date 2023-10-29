@@ -1,6 +1,6 @@
 <div class="edit-container">
     <select id="task-collection" *ngIf="editCollect" [formControl]="changeTask">
-        <option *ngFor="let collect of collectionArrayService.collectionSubject$ | async"
+        <option *ngFor="let collect of collection() | async"
                 [value]="collect">{{collect}}</option>
     </select>
     <mat-icon (click)="onEdit(task)">{{editCollect ? 'border_color' : 'edit' }}</mat-icon>

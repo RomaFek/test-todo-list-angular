@@ -1,27 +1,26 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {DialogRef} from "@angular/cdk/dialog";
-import {AuthService} from "../auth/service/auth.service";
-import {Router} from "@angular/router";
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { DialogRef } from '@angular/cdk/dialog';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { UserContextService } from '../auth/service/user-context.service';
 
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnInit {
-    public currentUser!: string
-
     constructor(
-        private router: Router, public dialogRef: DialogRef<string>, public authService: AuthService
-    ) {
-    }
+        private router: Router,
+        private dialogRef: DialogRef<string>,
+        private userContextService: UserContextService,
+    ) {}
 
-    ngOnInit() {
-        const authenticatedUser = sessionStorage.getItem('authenticatedUser');
-        if (authenticatedUser) {
-            this.currentUser = JSON.parse(authenticatedUser);
-        }
+    ngOnInit() {}
+
+    public currentUser$(): Observable<string> {
+        return this.userContextService.authenticatedUser$;
     }
 
     public onLogout() {

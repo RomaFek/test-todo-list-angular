@@ -5,7 +5,7 @@
         </div>
         <div class="body-card">
             <img src="assets/user_avatar1.png" alt="Аватар">
-            <h2>{{currentUser}}</h2>
+            <h2>{{currentUser$() | async}}</h2>
             <button (click)="onLogout()">Logout</button>
         </div>
     </div>

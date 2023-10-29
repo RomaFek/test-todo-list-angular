@@ -28,7 +28,7 @@ export class RegistrationComponent {
         private authService: AuthService,
         private destroy$: DestroyService,
         private uniqueLoginValidator: UniqueLoginValidator,
-        public checkValidService: CheckValidService,
+        private checkValidService: CheckValidService,
     ) {
         this._createForm();
     }
@@ -42,7 +42,7 @@ export class RegistrationComponent {
             login: new FormControl(
                 '',
                 [Validators.required, Validators.minLength(4)],
-                [this.uniqueLoginValidator.validateLoginUniqueness()],
+                // [this.uniqueLoginValidator.validateLoginUniqueness()],
             ),
             password: new FormControl('', [
                 Validators.required,
@@ -71,5 +71,9 @@ export class RegistrationComponent {
                 .subscribe();
             this.router.navigate(['/']);
         }
+    }
+
+    public getErrorMessage(submitted: boolean, controls: FormControl) {
+        return this.checkValidService.getErrorMessage(submitted, controls);
     }
 }
