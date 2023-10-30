@@ -1,36 +1,28 @@
-import { Injectable, OnInit } from '@angular/core';
-import { map, take } from 'rxjs';
-import { CopyBDService } from './copy-bd.service';
+import { Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { IndexedDBService } from '../../../service/indexed-db.service';
-import { ITask } from '../../../add-task/models/task-model';
 
 @Injectable({
     providedIn: 'root',
 })
-export class UniqCollectService implements OnInit {
-    // allTaskSubject$: BehaviorSubject<ITask[]> = new BehaviorSubject<ITask[]>(
-    //     [],
-    // );
-    constructor(
-        private copyBDService: CopyBDService,
-        private indexedDBService: IndexedDBService,
-    ) {}
+export class UniqCollectService {
+    constructor(private indexedDBService: IndexedDBService) {}
 
-    ngOnInit() {}
-
-    private getTasks() {
-        return this.indexedDBService.initDBTasks();
+    public getUniqueCollections(): Observable<(string | null | undefined)[]> {
+        return this.indexedDBService.allTasks.pipe(
+            map((tasks) =>
+                tasks.filter((task) => task.collectionTask !== undefined),
+            ),
+            map((tasks) => {
+                return Array.from(
+                    new Set(tasks.map((task) => task.collectionTask)),
+                );
+            }),
+        );
     }
 
     private uniqueObjectTasksInCollection() {
-        if (this.indexedDBService.allTaskSubject$.value.length === 0) {
-            this.getTasks()
-                .pipe(take(1))
-                .subscribe((tasks: ITask[]) => {
-                    this.indexedDBService.allTaskSubject$.next(tasks);
-                });
-        }
-        return this.indexedDBService.allTaskSubject$.pipe(
+        return this.indexedDBService.allTasks.pipe(
             map((tasks) => {
                 const uniqueCollections = Array.from(
                     new Set(tasks.map((task) => task.collectionTask)),
@@ -46,33 +38,6 @@ export class UniqCollectService implements OnInit {
             }),
         );
     }
-
-    // private uniqueObjectTasksInCollection() {
-    //     if (this.copyBDService.allTaskSubject$.value.length === 0) {
-    //         console.log(123123123);
-    //         return this.getTasks().pipe(
-    //             tap((v) => console.log(v, '----')),
-    //             take(1),
-    //             switchMap((tasks: ITask[]) => {
-    //                 this.copyBDService.allTaskSubject$.next(tasks);
-    //                 return this.indexedDBService.initDBTasks();
-    //             }),
-    //         );
-    //     }
-    //     return this.indexedDBService.initDBTasks().pipe(
-    //         map((tasks) => {
-    //             const uniqueCollections = Array.from(
-    //                 new Set(tasks.map((task) => task.collectionTask)),
-    //             );
-    //             return uniqueCollections.map((collectionsString) => ({
-    //                 collection: collectionsString,
-    //                 tasks: tasks.filter(
-    //                     (task) => task.collectionTask === collectionsString,
-    //                 ),
-    //             }));
-    //         }),
-    //     );
-    // }
 
     public arrayObjCollectionsNotCompleted$() {
         return this.uniqueObjectTasksInCollection().pipe(

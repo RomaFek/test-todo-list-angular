@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { CopyBDService } from '../../main-page/dashboard/services/copy-bd.service';
 import { ITask } from '../../add-task/models/task-model';
 import { IndexedDBService } from '../../service/indexed-db.service';
 
@@ -8,10 +7,7 @@ import { IndexedDBService } from '../../service/indexed-db.service';
     providedIn: 'root',
 })
 export class FilteredTasksCompletedService {
-    constructor(
-        private copyBDService: CopyBDService,
-        private indexedDBService: IndexedDBService,
-    ) {}
+    constructor(private indexedDBService: IndexedDBService) {}
 
     private filterTasksByCollection(collection: string): Observable<ITask[]> {
         return this.indexedDBService

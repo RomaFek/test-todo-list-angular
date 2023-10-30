@@ -21,32 +21,25 @@ export class CardBodyComponent {
         private modalService: ModalService,
         private dragNDropService: DragNDropService,
         private taskCompleteService: TaskCompleteService,
-    ) {
-        console.log('0');
-    }
+    ) {}
 
     public onDragStart(event: DragEvent, task: ITask) {
-        console.log('1');
         this.dragNDropService.onDragStart(event, task);
     }
 
     public onMiniTask(task: ITask) {
-        console.log('2');
         return this.taskCompleteService.onMiniTask(task);
     }
 
     public clickDropDownMiniTask() {
-        console.log('3');
         this.dropDownMiniTask = !this.dropDownMiniTask;
     }
 
     public openAddMiniTaskModal(coll: ITask) {
-        console.log('4');
         this.modalService.openAddMiniTaskModal(coll);
     }
 
     public checkMiniTasks(task: ITask) {
-        console.log('5');
         return this.taskCompleteService.checkMiniTasks(task);
     }
 

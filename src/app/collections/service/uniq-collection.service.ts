@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
-import { CopyBDService } from '../../main-page/dashboard/services/copy-bd.service';
-import { map, Observable } from 'rxjs';
 import { IndexedDBService } from '../../service/indexed-db.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UniqCollectionService {
-    constructor(
-        private copyBDService: CopyBDService,
-        private indexedDBService: IndexedDBService,
-    ) {}
+    constructor(private indexedDBService: IndexedDBService) {}
 
-    public getUniqueCollections(): Observable<(string | null | undefined)[]> {
-        return this.indexedDBService.initDBTasks().pipe(
-            map((tasks) => {
-                const uniqueCollections = Array.from(
-                    new Set(tasks.map((task) => task.collectionTask)),
-                );
-                return uniqueCollections;
-            }),
-        );
-    }
+    // public getUniqueCollections(): Observable<(string | null | undefined)[]> {
+    //     this.indexedDBService.();
+    //     return this.indexedDBService.allTasks.pipe(
+    //         tap((v) => console.log(v)),
+    //         map((tasks) =>
+    //             tasks.filter((task) => task.collectionTask !== undefined),
+    //         ),
+    //         map((tasks) => {
+    //             return Array.from(
+    //                 new Set(tasks.map((task) => task.collectionTask)),
+    //             );
+    //         }),
+    //     );
+    // }
 
     // public getUniqueCollectionTasks(): Observable<(string | undefined)[]> {
     //     return this.copyBDService.allTasks.pipe(

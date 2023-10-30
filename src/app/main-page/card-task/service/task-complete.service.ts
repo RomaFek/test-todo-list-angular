@@ -1,21 +1,23 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ITask } from '../../../add-task/models/task-model';
-import { filter, map, Observable, of, Subject, switchMap } from 'rxjs';
-import { CopyBDService } from '../../dashboard/services/copy-bd.service';
-import { AddMiniTaskService } from './add-mini-task.service';
+import {
+    filter,
+    map,
+    Observable,
+    of,
+    Subject,
+    switchMap,
+    takeUntil,
+} from 'rxjs';
 import { IndexedDBService } from '../../../service/indexed-db.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class TaskCompleteService extends Subject<void> implements OnDestroy {
-    constructor(
-        private copyBDService: CopyBDService,
-        private addMiniTaskService: AddMiniTaskService,
-        private indexedDBService: IndexedDBService,
-    ) {
-        super();
-    }
+export class TaskCompleteService implements OnDestroy {
+    private destroy$: Subject<void> = new Subject();
+
+    constructor(private indexedDBService: IndexedDBService) {}
 
     public changeTaskCompleted(task: ITask) {
         if (task.id) {
@@ -35,36 +37,14 @@ export class TaskCompleteService extends Subject<void> implements OnDestroy {
                             return of(null);
                         }
                     }),
+                    takeUntil(this.destroy$),
                 )
                 .subscribe();
         }
     }
 
-    // public changeMiniTaskCompleted(task: IMiniTask) {
-    //     if (task.id) {
-    //         this.addMiniTaskService
-    //             .getOneMiniTask(task.id)
-    //             .pipe(
-    //                 switchMap((oneTask) => {
-    //                     if (oneTask) {
-    //                         const updatedTask: IMiniTask = {
-    //                             ...task,
-    //                             isCompleted: !oneTask.isCompleted,
-    //                         };
-    //                         return this.addMiniTaskService.updateMiniTask(
-    //                             updatedTask,
-    //                         );
-    //                     } else {
-    //                         return of(null);
-    //                     }
-    //                 }),
-    //             )
-    //             .subscribe();
-    //     }
-    // }
-
     public onMiniTask(task: ITask) {
-        return this.addMiniTaskService.allMiniTasks.pipe(
+        return this.indexedDBService.allTasks.pipe(
             map((el) => el.filter((el) => el.task_id === task.id)),
         );
     }
@@ -83,7 +63,7 @@ export class TaskCompleteService extends Subject<void> implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.next();
-        this.complete();
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

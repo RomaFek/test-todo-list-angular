@@ -4,8 +4,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DestroyService } from '../../shared/destroy.service';
 import { takeUntil } from 'rxjs';
 import { ITask } from '../models/task-model';
-import { CopyBDService } from '../../main-page/dashboard/services/copy-bd.service';
-import { CollectionArrayService } from '../../collections/add-collect-modal/service/collection-array.service';
 import { IndexedDBService } from '../../service/indexed-db.service';
 
 @Component({
@@ -26,8 +24,6 @@ export class AddTaskComponent {
     constructor(
         private dialogRef: DialogRef<string>,
         private destroy$: DestroyService,
-        private copyBDService: CopyBDService,
-        private collectionArrayService: CollectionArrayService,
         private indexedDBService: IndexedDBService,
     ) {
         this._createForm();
@@ -55,7 +51,7 @@ export class AddTaskComponent {
                 endDate,
                 isCompleted: false,
             };
-            this.copyBDService
+            this.indexedDBService
                 .addTasks(data)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe();
@@ -66,7 +62,7 @@ export class AddTaskComponent {
     }
 
     public collection$() {
-        return this.collectionArrayService.collection$;
+        return this.indexedDBService.collection$;
     }
 
     public closeModal() {

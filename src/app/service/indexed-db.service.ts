@@ -1,9 +1,18 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import {
+    BehaviorSubject,
+    catchError,
+    map,
+    Observable,
+    take,
+    tap,
+    throwError,
+} from 'rxjs';
 import { ITask } from '../add-task/models/task-model';
 import { IUser } from '../auth/model/user-model';
 import { ICollection } from '../collections/model/collection';
 import { environment } from '../../enviroment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',
@@ -12,11 +21,60 @@ export class IndexedDBService {
     allTaskSubject$: BehaviorSubject<ITask[]> = new BehaviorSubject<ITask[]>(
         [],
     );
+    private initialValue: string[] = [
+        'work',
+        'person',
+        'pets',
+        'groups',
+        'medication',
+        'payments',
+    ];
+    private collectionSubject: BehaviorSubject<string[]> = new BehaviorSubject(
+        this.initialValue,
+    );
+    public collection$ = this.collectionSubject.asObservable();
 
-    constructor() {}
+    constructor(private http: HttpClient) {
+        this.getCollections();
+    }
+
+    public getCollections() {
+        this.initDBCollections()
+            .pipe(
+                map((el) => el.map((el) => el.name)),
+                take(1),
+            )
+            .subscribe((col: string[]) => {
+                this.collectionSubject.next(col);
+            });
+    }
+
+    private getTasks() {
+        return this.initDBTasks();
+    }
 
     public get allTasks(): BehaviorSubject<ITask[]> {
+        if (this.allTaskSubject$.value.length === 0) {
+            this.getTasks()
+                .pipe(take(1))
+                .subscribe((tasks: ITask[]) => {
+                    this.allTaskSubject$.next(tasks);
+                });
+        }
         return this.allTaskSubject$;
+    }
+
+    public setNewCollect(newCollect: string) {
+        const currentCollection = this.collectionSubject.getValue();
+        currentCollection.push(newCollect);
+        this.collectionSubject.next(currentCollection);
+        return this.http.post('addCollection', newCollect);
+    }
+
+    public addTasks(taskData: ITask) {
+        const currentTasks = this.allTaskSubject$.getValue();
+        this.allTaskSubject$.next([...currentTasks, taskData]);
+        return this.http.post('addTask', taskData);
     }
 
     private openRequestOnSuccess(req: IDBOpenDBRequest, namingDb: string) {
@@ -127,18 +185,29 @@ export class IndexedDBService {
     }
 
     public updateTask(task: ITask): Observable<ITask[]> {
-        let namingDb: string = environment.nameDbTasks;
-        // if (task.task_id) {
-        //   namingDb = this.nameDbSubTasks;
-        // } else {
-        //   namingDb = this.nameDbTasks;
-        // }
+        const currentTasks = this.allTaskSubject$.getValue();
+        const updatedTasks = currentTasks.map((taskInArr) => {
+            if (taskInArr.id === task.id) {
+                return task;
+            }
+            return taskInArr;
+        });
+        this.allTaskSubject$.next(updatedTasks);
+
         return new Observable<ITask[]>((observer) => {
-            const openRequest = indexedDB.open(namingDb, environment.versionDB);
+            const openRequest = indexedDB.open(
+                environment.nameDbTasks,
+                environment.versionDB,
+            );
             openRequest.onsuccess = function (event) {
                 const db = openRequest.result;
-                const transaction = db.transaction(namingDb, 'readwrite');
-                const TodoListStore = transaction.objectStore(namingDb);
+                const transaction = db.transaction(
+                    environment.nameDbTasks,
+                    'readwrite',
+                );
+                const TodoListStore = transaction.objectStore(
+                    environment.nameDbTasks,
+                );
 
                 if (task.id !== null) {
                     const getRequest = TodoListStore.get(task.id);

@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { FormControl, Validators } from '@angular/forms';
-import { AddMiniTaskService } from '../../card-task/service/add-mini-task.service';
 import { DestroyService } from '../../../shared/destroy.service';
 import { takeUntil } from 'rxjs';
-// import {IMiniTask} from "../models/mini-task-model";
 import { ITask } from '../../../add-task/models/task-model';
+import { IndexedDBService } from '../../../service/indexed-db.service';
 
 @Component({
     selector: 'app-mini-task',
@@ -21,7 +20,7 @@ export class MiniTaskComponent {
         public dialogRef: DialogRef<string>,
         @Inject(DIALOG_DATA)
         public data: { coll: ITask },
-        public addMiniTaskService: AddMiniTaskService,
+        public indexedDBService: IndexedDBService,
         private destroy$: DestroyService,
     ) {
         this.newMiniTask = new FormControl('', Validators.required);
@@ -36,8 +35,8 @@ export class MiniTaskComponent {
                 isCompleted: false,
             };
 
-            this.addMiniTaskService
-                .setNewMiniTask(miniTask)
+            this.indexedDBService
+                .addTasks(miniTask)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe();
         }

@@ -1,5 +1,4 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CopyBDService } from '../../dashboard/services/copy-bd.service';
 import { Subject, takeUntil } from 'rxjs';
 import { IndexedDBService } from '../../../service/indexed-db.service';
 
@@ -9,10 +8,7 @@ import { IndexedDBService } from '../../../service/indexed-db.service';
 export class DragNDropService implements OnDestroy {
     private destroy$: Subject<void> = new Subject();
 
-    constructor(
-        private copyBDService: CopyBDService,
-        private indexedDBService: IndexedDBService,
-    ) {}
+    constructor(private indexedDBService: IndexedDBService) {}
 
     public onDragStart(event: DragEvent, coll: any) {
         if (event.dataTransfer)

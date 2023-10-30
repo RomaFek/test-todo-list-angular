@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, takeUntil } from 'rxjs';
-import { CopyBDService } from '../../main-page/dashboard/services/copy-bd.service';
 import { NavbarService } from '../../navbar/services/navbar.service';
 import { ITask } from '../../add-task/models/task-model';
 import { DestroyService } from '../../shared/destroy.service';
@@ -22,7 +21,6 @@ export class CollectionPageComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private navbarService: NavbarService,
-        private copyBDService: CopyBDService,
         private destroy$: DestroyService,
         private modalService: ModalService,
         private indexedDBService: IndexedDBService,
@@ -42,7 +40,7 @@ export class CollectionPageComponent implements OnInit {
     }
 
     public onFilteredTruthy(): Observable<ITask[]> {
-        return this.indexedDBService.initDBTasks().pipe(
+        return this.indexedDBService.allTasks.pipe(
             map((el) =>
                 el.filter((el) => el.collectionTask === this.collection),
             ),
@@ -51,7 +49,7 @@ export class CollectionPageComponent implements OnInit {
     }
 
     public onFilteredFalsy(): Observable<ITask[]> {
-        return this.indexedDBService.initDBTasks().pipe(
+        return this.indexedDBService.allTasks.pipe(
             map((el) =>
                 el.filter((el) => el.collectionTask === this.collection),
             ),

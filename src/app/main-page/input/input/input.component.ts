@@ -16,20 +16,20 @@ import { TaskCompleteService } from '../../card-task/service/task-complete.servi
 })
 export class InputComponent implements OnInit {
     @Input()
-    public taskCol!: ITask;
-    @Input()
-    public miniTask!: ITask;
+    public task!: ITask;
+    // @Input()
+    // public miniTask!: ITask;
     public isCheckbox!: FormControl<boolean>;
 
     constructor(private taskCompleteService: TaskCompleteService) {}
 
     public ngOnInit() {
-        this.isCheckbox = new FormControl(this.taskCol.isCompleted, {
+        this.isCheckbox = new FormControl(this.task.isCompleted, {
             nonNullable: true,
         });
     }
 
-    public changeTaskCompleted(taskCol: ITask) {
-        this.taskCompleteService.changeTaskCompleted(taskCol);
+    public changeTaskCompleted(task: ITask) {
+        this.taskCompleteService.changeTaskCompleted(task);
     }
 }

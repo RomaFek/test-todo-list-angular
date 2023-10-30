@@ -4,11 +4,11 @@ import {
     OnDestroy,
     OnInit,
 } from '@angular/core';
-import { UniqCollectionService } from '../service/uniq-collection.service';
 import { NavbarService } from '../../navbar/services/navbar.service';
 import { map, Observable, switchMap } from 'rxjs';
 import { ModalService } from '../../add-task/services/modal.service';
 import { FilteredTasksCompletedService } from '../service/filtered-tasks-completed.service';
+import { UniqCollectService } from '../../main-page/dashboard/services/uniq-collect.service';
 
 @Component({
     selector: 'app-collections',
@@ -17,14 +17,20 @@ import { FilteredTasksCompletedService } from '../service/filtered-tasks-complet
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionsComponent implements OnInit, OnDestroy {
+    public arrayCollections$:
+        | Observable<(string | null | undefined)[]>
+        | undefined;
+
     constructor(
-        private uniqCollectionService: UniqCollectionService,
+        private uniqCollectionService: UniqCollectService,
         private navbarService: NavbarService,
         private modalService: ModalService,
         private filteredTasksCompletedService: FilteredTasksCompletedService,
     ) {}
 
     public ngOnInit() {
+        this.arrayCollections$ =
+            this.uniqCollectionService.getUniqueCollections();
         this.navbarService.closeMenu();
         this.navbarService.onPage();
     }
@@ -41,15 +47,16 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             );
     }
 
-    public ngOnDestroy() {
-        this.navbarService.leaveOnPage();
-    }
-
     public openAddCollect() {
         return this.modalService.openAddCollect();
     }
 
-    public getUniqueCollectionTasks() {
-        return this.uniqCollectionService.getUniqueCollections();
+    // public getUniqueCollectionTasks() {
+    //     this.arrayCollections$ =
+    //         this.uniqCollectionService.getUniqueCollections();
+    // }
+
+    public ngOnDestroy() {
+        this.navbarService.leaveOnPage();
     }
 }

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { filter, map, Observable, of, switchMap } from 'rxjs';
 import { ITask } from '../../../add-task/models/task-model';
 import { isBefore, isToday, parseISO } from 'date-fns';
-import { CopyBDService } from '../../dashboard/services/copy-bd.service';
 import { UniqCollectService } from '../../dashboard/services/uniq-collect.service';
 import { IndexedDBService } from '../../../service/indexed-db.service';
 
@@ -11,7 +10,6 @@ import { IndexedDBService } from '../../../service/indexed-db.service';
 })
 export class CheckCompleteService {
     constructor(
-        private copyBDService: CopyBDService,
         private uniqCollectService: UniqCollectService,
         private indexedDBService: IndexedDBService,
     ) {}

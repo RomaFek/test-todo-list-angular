@@ -5,9 +5,7 @@ import {
     OnInit,
 } from '@angular/core';
 import { ITask } from '../../add-task/models/task-model';
-import { CollectionArrayService } from '../../collections/add-collect-modal/service/collection-array.service';
 import { FormControl, Validators } from '@angular/forms';
-import { CopyBDService } from '../../main-page/dashboard/services/copy-bd.service';
 import { takeUntil } from 'rxjs';
 import { DestroyService } from '../../shared/destroy.service';
 import { IndexedDBService } from '../../service/indexed-db.service';
@@ -26,8 +24,6 @@ export class EditCollectionComponent implements OnInit {
     public changeTask!: FormControl<string | null | undefined>;
 
     constructor(
-        private collectionArrayService: CollectionArrayService,
-        private copyBDService: CopyBDService,
         private destroy$: DestroyService,
         private indexedDBService: IndexedDBService,
     ) {}
@@ -54,6 +50,6 @@ export class EditCollectionComponent implements OnInit {
     }
 
     public collection() {
-        return this.collectionArrayService.collection$;
+        return this.indexedDBService.collection$;
     }
 }

@@ -5,7 +5,7 @@
     <div class="container-content">
         <div class="content">
             <div routerLink="/collections/{{collectionTask}}"
-                 *ngFor="let collectionTask of getUniqueCollectionTasks() | async"
+                 *ngFor="let collectionTask of arrayCollections$ | async"
                  class="card">
                 <div class="head-card">
                     <mat-icon class="task-icon" [class]="collectionTask + '-icon'">{{ collectionTask }}</mat-icon>

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UniqCollectionService } from '../../collections/service/uniq-collection.service';
 import { Observable } from 'rxjs';
+import { UniqCollectService } from '../dashboard/services/uniq-collect.service';
 
 @Component({
     selector: 'app-sidenav',
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidenavComponent {
-    constructor(private uniqCollectionService: UniqCollectionService) {}
+    constructor(private uniqCollectionService: UniqCollectService) {}
 
     public getUniqueCollections(): Observable<(string | null | undefined)[]> {
         return this.uniqCollectionService.getUniqueCollections();

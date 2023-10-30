@@ -6,38 +6,40 @@
     </div>
     <a (click)="clickDropDown()">
         <mat-icon
-                class="task-icon-dropup">{{ dropDown ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+            class="task-icon-dropup">{{ dropDown ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
     </a>
 </div>
 <div class="card-body" *ngIf="dropDown">
-    <ng-container *ngFor="let coll of colData.tasks">
+    <ng-container *ngFor="let task of colData.tasks">
         <div class="card-container">
             <div class="card-container-left">
                 <label class="label">
-                    <app-input [taskCol]="coll"></app-input>
-                    <span [ngClass]="{'completed': coll.isCompleted,'not-completed': !coll.isCompleted}"
-                          [class]="'fake ' + coll.collectionTask"></span>
-                    <span class="text">{{ coll.description }}</span>
+                    <app-input [task]="task"></app-input>
+                    <span [ngClass]="{'completed': task.isCompleted,'not-completed': !task.isCompleted}"
+                          [class]="'fake ' + task.collectionTask"></span>
+                    <span class="text">{{ task.description }}</span>
                 </label>
                 <p class="endDate"><span
-                        *ngIf="onMiniTask(coll) | async as miniTasks">
-                                    <span class="current" *ngIf="miniTasks.length">{{ miniTasks | currentTask }}</span>
+                    *ngIf="onMiniTask(task) | async as subTasks">
+                                    <span class="current" *ngIf="subTasks.length">{{ subTasks | currentTask }}</span>
                                 </span>
-                    <ng-container *ngIf="coll.endDate">
-                        {{coll.endDate | customDate}}</ng-container>
+                    <ng-container *ngIf="task.endDate">
+                        {{task.endDate | customDate}}</ng-container>
                 </p>
                 <ng-container *ngIf="dropDownMiniTask">
-                    <ng-container *ngIf="onMiniTask(coll) | async as miniTasks">
+                    <ng-container *ngIf="onMiniTask(task) | async as subTasks">
                         <ng-container
-                                *ngIf="checkMiniTasks(coll) | async"></ng-container>
-                        <div class="mini-task" *ngFor="let miniTask of miniTasks">
+                            *ngIf="checkMiniTasks(task) | async"></ng-container>
+                        <div class="mini-task" *ngFor="let subTask of subTasks">
                             <label class="label">
 
-                                <app-input [taskCol]="miniTask"></app-input>
-                                <span [ngClass]="{'completed': miniTask.isCompleted,'not-completed': !miniTask.isCompleted}"
-                                      [class]="'fake ' + coll.collectionTask">✓</span>
-                                <span [ngClass]="{'completed': miniTask.isCompleted,'not-completed': !miniTask.isCompleted}"
-                                      class="text">{{ miniTask.description }}</span>
+                                <app-input [task]="subTask"></app-input>
+                                <span
+                                    [ngClass]="{'completed': subTask.isCompleted,'not-completed': !subTask.isCompleted}"
+                                    [class]="'fake ' + task.collectionTask">✓</span>
+                                <span
+                                    [ngClass]="{'completed': subTask.isCompleted,'not-completed': !subTask.isCompleted}"
+                                    class="text">{{ subTask.description }}</span>
                             </label>
 
                         </div>
@@ -45,16 +47,16 @@
                 </ng-container>
             </div>
             <div class="icon-container">
-                        <span *ngIf="onMiniTask(coll) | async as miniTasks">
+                        <span *ngIf="onMiniTask(task) | async as miniTasks">
 
                         <a *ngIf="miniTasks.length" (click)="clickDropDownMiniTask()">
                             <mat-icon
-                                    class="task-icon-dropup">{{ dropDownMiniTask ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+                                class="task-icon-dropup">{{ dropDownMiniTask ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
                         </a>
                         </span>
-                <mat-icon (click)="openAddMiniTaskModal(coll)">add</mat-icon>
+                <mat-icon (click)="openAddMiniTaskModal(task)">add</mat-icon>
                 <mat-icon id="drag" draggable="true"
-                          (dragstart)="onDragStart($event, coll)">
+                          (dragstart)="onDragStart($event, task)">
                     touch_app
                 </mat-icon>
             </div>
