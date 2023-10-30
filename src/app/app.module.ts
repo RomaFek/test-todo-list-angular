@@ -16,9 +16,8 @@ import { SidenavComponent } from './main-page/sidenav/sidenav.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CustomDatePipe } from './main-page/dashboard/pipe/custom-date.pipe';
 import { CollectionPageComponent } from './collection-page/component/collection-page.component';
-import { InputComponent } from './main-page/input/input.component';
+import { InputComponent } from './UI/input/input.component';
 import { AuthComponent } from './auth/authorization/component/auth.component';
-import { RegistrationComponent } from './auth/registration/registration.component';
 import { RegistrationInterceptor } from './interceptors/registration.interceptor';
 import { AddTaskInterceptor } from './interceptors/add-task.interceptor';
 import { ProfileComponent } from './profile/profile.component';
@@ -48,7 +47,6 @@ import { CustomCheckboxComponent } from './UI/custom-checkbox/custom-checkbox.co
         CardTaskComponent,
         InputComponent,
         AuthComponent,
-        RegistrationComponent,
         ProfileComponent,
         EditCollectionComponent,
         AddCollectModalComponent,

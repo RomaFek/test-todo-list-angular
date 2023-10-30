@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ITask } from '../../shared/model/task-model';
 import { FormControl } from '@angular/forms';
-import { TaskCompleteService } from '../card-task/service/task-complete.service';
+import { TaskCompleteService } from '../../main-page/card-task/service/task-complete.service';
 
 @Component({
     selector: 'app-input',

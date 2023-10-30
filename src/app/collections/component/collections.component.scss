@@ -1,5 +1,6 @@
 .container {
     width: 100%;
+    min-height: calc(100vh - 70px);
     background-color: #181820;
     display: flex;
     flex-direction: column;
@@ -7,11 +8,6 @@
     align-items: center;
 }
 
-//
-//.container {
-//  display: flex;
-//  flex-direction: column;
-//}
 
 .header {
     color: #f8f8f8;

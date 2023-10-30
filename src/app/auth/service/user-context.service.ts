@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -7,13 +7,26 @@ import { BehaviorSubject } from 'rxjs';
 export class UserContextService {
     private authenticatedUserSubject: BehaviorSubject<string> =
         new BehaviorSubject<string>('');
-    public authenticatedUser$ = this.authenticatedUserSubject.asObservable();
 
-    constructor() {
+    constructor() {}
+
+    public get getUserName$(): Observable<string> {
         this.getAuthenticatedUser();
+        this.authenticatedUserSubject
+            .pipe(take(1))
+            .subscribe((user: string) => {
+                this.authenticatedUserSubject.next(user);
+            });
+
+        return this.authenticatedUserSubject.asObservable();
     }
 
-    private getAuthenticatedUser() {
+    public setAuthenticatedUser(user: string): void {
+        sessionStorage.setItem('authenticatedUser', JSON.stringify(user));
+        this.authenticatedUserSubject.next(user);
+    }
+
+    public getAuthenticatedUser(): void {
         let user = sessionStorage.getItem('authenticatedUser');
         if (user) {
             user = JSON.parse(user);

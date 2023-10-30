@@ -15,8 +15,9 @@ import { IndexedDBService } from '../../service/indexed-db.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionPageComponent implements OnInit {
-    public collection!: string;
+    public collection!: Observable<string>;
     public sidenavVisible$!: Observable<boolean>;
+    private filterCollections!: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -29,29 +30,30 @@ export class CollectionPageComponent implements OnInit {
     public ngOnInit() {
         this.sidenavVisible$ = this.navbarService.sidenavVisible$;
         this.navbarService.openMenu();
-        this.route.params
-            .pipe(
-                map((param) => param['collectionTask']),
-                takeUntil(this.destroy$),
-            )
-            .subscribe((task) => {
-                this.collection = task;
-            });
+        this.collection = this.route.params.pipe(
+            map((param) => param['collectionTask']),
+            takeUntil(this.destroy$),
+        );
+        // .subscribe((task) => {
+        //     this.collection = task;
+        // });
     }
 
     public onFilteredTruthy(): Observable<ITask[]> {
+        this.collection.subscribe((v) => (this.filterCollections = v));
         return this.indexedDBService.allTasks.pipe(
             map((el) =>
-                el.filter((el) => el.collectionTask === this.collection),
+                el.filter((el) => el.collectionTask === this.filterCollections),
             ),
             map((tasks) => tasks.filter((el) => el.isCompleted === false)),
         );
     }
 
     public onFilteredFalsy(): Observable<ITask[]> {
+        this.collection.subscribe((v) => (this.filterCollections = v));
         return this.indexedDBService.allTasks.pipe(
             map((el) =>
-                el.filter((el) => el.collectionTask === this.collection),
+                el.filter((el) => el.collectionTask === this.filterCollections),
             ),
             map((tasks) => tasks.filter((el) => el.isCompleted === true)),
         );

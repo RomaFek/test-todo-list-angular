@@ -5,7 +5,7 @@ import { NavbarService } from '../navbar/services/navbar.service';
 @Component({
     selector: 'app-backoffice',
     templateUrl: './backoffice.component.html',
-    styleUrls: ['./backoffice.component.css'],
+    styleUrls: ['./backoffice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BackofficeComponent {

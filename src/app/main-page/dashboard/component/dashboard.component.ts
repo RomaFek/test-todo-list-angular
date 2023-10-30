@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { NavbarService } from '../../../navbar/services/navbar.service';
 import { ModalService } from '../../../add-task/services/modal.service';
 import { UserContextService } from '../../../auth/service/user-context.service';
-import { IndexedDBService } from '../../../service/indexed-db.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -15,12 +14,15 @@ export class DashboardComponent implements OnInit {
     public sidenavVisible$!: Observable<boolean>;
     public date = new Date();
 
+    // public currentUser$!: Observable<string>;
+
     constructor(
         private navbarService: NavbarService,
         private userContextService: UserContextService,
         private modalService: ModalService,
-        private indexedDBService: IndexedDBService,
-    ) {}
+    ) {
+        // this.currentUser$ = this.userContextService.getUserName$;
+    }
 
     public ngOnInit() {
         this.sidenavVisible$ = this.navbarService.sidenavVisible$;
@@ -28,7 +30,7 @@ export class DashboardComponent implements OnInit {
     }
 
     public currentUser$(): Observable<string> {
-        return this.userContextService.authenticatedUser$;
+        return this.userContextService.getUserName$;
     }
 
     public openProfile() {

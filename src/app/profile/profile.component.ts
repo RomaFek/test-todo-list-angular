@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
     ngOnInit() {}
 
     public currentUser$(): Observable<string> {
-        return this.userContextService.authenticatedUser$;
+        return this.userContextService.getUserName$;
     }
 
     public onLogout() {

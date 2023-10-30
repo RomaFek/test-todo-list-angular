@@ -13,6 +13,7 @@ import { ICollection } from '../shared/model/collection';
 import { environment } from '../../enviroment';
 import { HttpClient } from '@angular/common/http';
 import { initialValue } from '../shared/model/initialValue-model';
+import { UserContextService } from '../auth/service/user-context.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,14 +22,14 @@ export class IndexedDBService {
     private allTaskSubject: BehaviorSubject<ITask[]> = new BehaviorSubject<
         ITask[]
     >([]);
-    private allUserSubject: BehaviorSubject<IUser[]> = new BehaviorSubject<
-        IUser[]
-    >([]);
 
     private collectionSubject: BehaviorSubject<ICollection[]> =
         new BehaviorSubject<ICollection[]>(initialValue);
 
-    constructor(private http: HttpClient) {}
+    constructor(
+        private http: HttpClient,
+        private userContextService: UserContextService,
+    ) {}
 
     private getCollections(): Observable<ICollection[]> {
         return this.initDBCollections();
@@ -307,8 +308,8 @@ export class IndexedDBService {
     }
 
     public registration(user: IUser) {
-        const currentUsers = this.allUserSubject.getValue();
-        this.allUserSubject.next([...currentUsers, user]);
+        if (user.username)
+            this.userContextService.setAuthenticatedUser(user.username);
         return this.http.post('addUser', user);
     }
 

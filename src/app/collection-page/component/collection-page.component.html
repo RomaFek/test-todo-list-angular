@@ -6,7 +6,7 @@
                 <div class="arrow-icon" (click)="goBack()">
                     <mat-icon>arrow_back_ios</mat-icon>
                 </div>
-                <h1>{{collection}}</h1>
+                <h1>{{collection | async}}</h1>
             </div>
             <div class="notCompleted" *ngIf="onFilteredTruthy() | async as tasks">
                 <h3>Tasks - {{(tasks)?.length}}</h3>

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { AuthComponent } from './auth/authorization/component/auth.component';
-import { RegistrationComponent } from './auth/registration/registration.component';
 import { MainGuard } from './main-page/dashboard/guard/main.guard';
 import { BackofficeComponent } from './backoffice/backoffice.component';
 import { CollectionPageComponent } from './collection-page/component/collection-page.component';
@@ -44,16 +43,11 @@ const routes: Routes = [
         component: AuthComponent,
         canActivate: [MainGuard],
     },
-    {
-        path: 'registration',
-        component: RegistrationComponent,
-        canActivate: [MainGuard],
-    },
     { path: '**', redirectTo: 'todo' },
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes, { enableTracing: true })],
     exports: [RouterModule],
 })
 export class AppRoutingModule {}

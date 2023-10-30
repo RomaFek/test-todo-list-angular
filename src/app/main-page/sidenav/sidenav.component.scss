@@ -1,73 +1,74 @@
 .container {
-  height: 100%;
-  background-color: #21212b;
+    height: 100%;
+    background-color: #21212b;
+
 }
 
 .sidenav {
-  display: flex;
-  align-content: center;
-  flex-direction: column;
-  width: 300px;
-  background-color: #21212b;
-  min-height: calc(100vh - 70px);
-
-  .header {
     display: flex;
+    align-content: center;
     flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    margin-top: 20px;
-    color: #bfbfc2;
-  }
+    width: 300px;
+    background-color: #21212b;
+    min-height: calc(100vh - 70px);
 
-  .navbar-item {
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    padding: 10px 20px;
-    color: #fff;
-    text-decoration: none;
-
-    &:hover {
-      background-color: #3f3f4d;
+    .header {
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        align-items: center;
+        margin-top: 20px;
+        color: #bfbfc2;
     }
 
-    mat-icon {
-      display: flex;
-      flex-direction: column;
-      justify-items: center;
-      align-items: center;
-      margin: 10px;
-      padding-top: 10px;
-      width: 50px;
-      height: 35px;
-      border-radius: 10px;
+    .navbar-item {
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        padding: 10px 20px;
+        color: #fff;
+        text-decoration: none;
 
+        &:hover {
+            background-color: #3f3f4d;
+        }
+
+        mat-icon {
+            display: flex;
+            flex-direction: column;
+            justify-items: center;
+            align-items: center;
+            margin: 10px;
+            padding-top: 10px;
+            width: 50px;
+            height: 35px;
+            border-radius: 10px;
+
+        }
     }
-  }
 }
 
 .work {
-  background-color: #fc76a1;
+    background-color: #fc76a1;
 }
 
 .person {
-  background-color: #a96bda;
+    background-color: #a96bda;
 }
 
 .pets {
-  background-color: #3380cb;
+    background-color: #3380cb;
 }
 
 .groups {
-  background-color: #795548;
+    background-color: #795548;
 }
 
 .medication {
-  background-color: #ffeb3b;
+    background-color: #ffeb3b;
 }
 
 .payments {
-  background-color: #70c4bf;
+    background-color: #70c4bf;
 }
 

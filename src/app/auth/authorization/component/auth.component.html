@@ -2,13 +2,14 @@
     <div class="container">
         <mat-icon>home</mat-icon>
         <h1>Member Login</h1>
-        <form class="form" [formGroup]="loginGroup" (ngSubmit)="onSubmit($event)">
-            <input type="text" id="input-login" placeholder="Your Login" [formControl]="loginGroup.controls.login">
+
+        <form *ngIf="authMode === 'login'" class="form" [formGroup]="loginGroup" (ngSubmit)="onSubmitLogin($event)">
+            <input type="text" class="input-login" placeholder="Your Login" [formControl]="loginGroup.controls.login">
             <p *ngIf="getErrorMessage(submitted,loginGroup.controls.login)" class="error-message">
                 {{ getErrorMessage(submitted, loginGroup.controls.login) }}
             </p>
             <div class="password-input">
-                <input id="input-password" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
+                <input class="input-password" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
                        [formControl]="loginGroup.controls.password">
                 <a class="password-toggle" (click)="togglePasswordVisibility()">
                     <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -21,8 +22,36 @@
             <div>
                 <button class="btn" type="submit">LOGIN</button>
             </div>
+            <button class="button-enter" (click)="switchMode('register')">I don't have an account</button>
         </form>
-        <a routerLink="/registration" class="link">I don't have an account</a>
+
+        <form *ngIf="authMode === 'register'" class="form" [formGroup]="registerGroup"
+              (ngSubmit)="onSubmitRegistration($event)">
+            <input type="text" placeholder="Your Username" id="input-username" class="input"
+                   [formControl]="registerGroup.controls.username">
+            <p *ngIf="getErrorMessage(submitted,registerGroup.controls.login)" class="error-message">
+                {{ getErrorMessage(submitted, registerGroup.controls.login) }}
+            </p>
+            <input type="text" class="input-login" placeholder="Your Login"
+                   [formControl]="registerGroup.controls.login">
+            <p *ngIf="getErrorMessage(submitted,registerGroup.controls.login)" class="error-message">
+                {{ getErrorMessage(submitted, registerGroup.controls.login) }}
+            </p>
+            <div class="password-input">
+                <input class="input-password" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
+                       [formControl]="registerGroup.controls.password">
+                <a class="password-toggle" (click)="togglePasswordVisibility()">
+                    <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </a>
+            </div>
+            <p *ngIf="getErrorMessage(submitted,registerGroup.controls.login)" class="error-message">
+                {{ getErrorMessage(submitted, registerGroup.controls.login) }}
+            </p>
+            <div>
+                <button class="btn" type="submit">REGISTER</button>
+            </div>
+            <button class="button-enter" (click)="switchMode('login')">I have an account</button>
+        </form>
     </div>
 </div>
 

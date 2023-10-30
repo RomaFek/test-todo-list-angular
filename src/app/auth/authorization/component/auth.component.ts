@@ -5,6 +5,7 @@ import { DestroyService } from '../../../shared/service/destroy.service';
 import { takeUntil } from 'rxjs';
 import { CheckValidService } from '../../service/check-valid.service';
 import { IndexedDBService } from '../../../service/indexed-db.service';
+import { UniqueLoginValidator } from '../../validator/uniq-validator';
 
 @Component({
     selector: 'app-auth',
@@ -16,8 +17,13 @@ import { IndexedDBService } from '../../../service/indexed-db.service';
 export class AuthComponent {
     public submitted = false;
     public showPassword: boolean = false;
-    public authMode!: string;
+    public authMode: string = 'login';
     public loginGroup!: FormGroup<{
+        login: FormControl<string | null>;
+        password: FormControl<string | null>;
+    }>;
+    public registerGroup!: FormGroup<{
+        username: FormControl<string | null>;
         login: FormControl<string | null>;
         password: FormControl<string | null>;
     }>;
@@ -27,14 +33,38 @@ export class AuthComponent {
         private destroy$: DestroyService,
         private checkValidService: CheckValidService,
         private indexedDBService: IndexedDBService,
+        private uniqueLoginValidator: UniqueLoginValidator,
     ) {
-        this._createForm();
+        this._createFormLogin();
+        this._createFormRegistration();
+        this.indexedDBService
+            .initDBUsers()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe();
     }
 
-    private _createForm() {
+    private _createFormLogin() {
         this.loginGroup = new FormGroup({
             login: new FormControl('', Validators.required),
             password: new FormControl('', Validators.required),
+        });
+    }
+
+    private _createFormRegistration() {
+        this.registerGroup = new FormGroup({
+            username: new FormControl('', [
+                Validators.required,
+                Validators.minLength(3),
+            ]),
+            login: new FormControl(
+                '',
+                [Validators.required, Validators.minLength(3)],
+                [this.uniqueLoginValidator.validateLoginUniqueness()],
+            ),
+            password: new FormControl('', [
+                Validators.required,
+                Validators.minLength(3),
+            ]),
         });
     }
 
@@ -42,7 +72,7 @@ export class AuthComponent {
         this.showPassword = !this.showPassword;
     }
 
-    public onSubmit(event: Event) {
+    public onSubmitLogin(event: Event) {
         event.preventDefault();
         this.submitted = true;
 
@@ -57,6 +87,24 @@ export class AuthComponent {
                         this.router.navigate(['/']);
                     }
                 });
+        }
+    }
+
+    public onSubmitRegistration(event: Event) {
+        event.preventDefault();
+        this.submitted = true;
+        if (this.registerGroup.valid) {
+            const user = {
+                id: Date.now(),
+                username: this.registerGroup.controls.username.value,
+                login: this.registerGroup.controls.login.value,
+                password: this.registerGroup.controls.password.value,
+            };
+            this.indexedDBService
+                .registration(user)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe();
+            this.router.navigate(['/']);
         }
     }
 
