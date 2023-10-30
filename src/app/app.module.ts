@@ -33,6 +33,7 @@ import { CardTaskComponent } from './main-page/card-task/component/card-task.com
 import { TaskBoardComponent } from './collection-page/task-board/task-board.component';
 import { CardBodyComponent } from './main-page/card-task/card-body/card-body.component';
 import { BackofficeComponent } from './backoffice/backoffice.component';
+import { CustomCheckboxComponent } from './UI/custom-checkbox/custom-checkbox.component';
 
 @NgModule({
     declarations: [
@@ -58,6 +59,7 @@ import { BackofficeComponent } from './backoffice/backoffice.component';
         TaskBoardComponent,
         CardBodyComponent,
         BackofficeComponent,
+        CustomCheckboxComponent,
     ],
     imports: [
         BrowserModule,

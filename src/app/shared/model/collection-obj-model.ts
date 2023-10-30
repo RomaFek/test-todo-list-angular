@@ -1,4 +1,4 @@
-import { ITask } from '../../../add-task/models/task-model';
+import { ITask } from './task-model';
 
 export interface ICollectionObjModel {
     collection: string | null | undefined;

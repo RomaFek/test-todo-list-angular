@@ -7,68 +7,57 @@ import {
     tap,
     throwError,
 } from 'rxjs';
-import { ITask } from '../add-task/models/task-model';
-import { IUser } from '../auth/model/user-model';
-import { ICollection } from '../collections/model/collection';
+import { ITask } from '../shared/model/task-model';
+import { IUser } from '../shared/model/user-model';
+import { ICollection } from '../shared/model/collection';
 import { environment } from '../../enviroment';
 import { HttpClient } from '@angular/common/http';
+import { initialValue } from '../shared/model/initialValue-model';
 
 @Injectable({
     providedIn: 'root',
 })
 export class IndexedDBService {
-    allTaskSubject$: BehaviorSubject<ITask[]> = new BehaviorSubject<ITask[]>(
-        [],
-    );
-    private initialValue: ICollection[] = [
-        { id: 1, name: 'work' },
-        { id: 2, name: 'person' },
-        { id: 3, name: 'pets' },
-        { id: 4, name: 'groups' },
-        { id: 5, name: 'medication' },
-        { id: 6, name: 'payments' },
-    ];
-    private collectionSubject: BehaviorSubject<ICollection[]> =
-        new BehaviorSubject<ICollection[]>(this.initialValue);
+    private allTaskSubject: BehaviorSubject<ITask[]> = new BehaviorSubject<
+        ITask[]
+    >([]);
+    private allUserSubject: BehaviorSubject<IUser[]> = new BehaviorSubject<
+        IUser[]
+    >([]);
 
-    // public collection$(): Observable<string[]> {
-    //     return this.getCollections().pipe(
-    //         switchMap(() => this.collectionSubject.asObservable()),
-    //     );
-    // }
+    private collectionSubject: BehaviorSubject<ICollection[]> =
+        new BehaviorSubject<ICollection[]>(initialValue);
 
     constructor(private http: HttpClient) {}
 
     private getCollections(): Observable<ICollection[]> {
-        console.log(this.collectionSubject);
         return this.initDBCollections();
-    }
-
-    public get allCollections(): BehaviorSubject<ICollection[]> {
-        console.log(this.collectionSubject);
-        this.getCollections()
-            .pipe(take(1))
-            .subscribe((col: ICollection[]) => {
-                let newValue = [...col, ...this.initialValue];
-                this.collectionSubject.next(newValue);
-            });
-
-        return this.collectionSubject;
     }
 
     private getTasks() {
         return this.initDBTasks();
     }
 
-    public get allTasks(): BehaviorSubject<ITask[]> {
-        if (this.allTaskSubject$.value.length === 0) {
+    public get allCollections(): Observable<ICollection[]> {
+        this.getCollections()
+            .pipe(take(1))
+            .subscribe((col: ICollection[]) => {
+                let newValue = [...col, ...initialValue];
+                this.collectionSubject.next(newValue);
+            });
+
+        return this.collectionSubject.asObservable();
+    }
+
+    public get allTasks(): Observable<ITask[]> {
+        if (this.allTaskSubject.value.length === 0) {
             this.getTasks()
                 .pipe(take(1))
                 .subscribe((tasks: ITask[]) => {
-                    this.allTaskSubject$.next(tasks);
+                    this.allTaskSubject.next(tasks);
                 });
         }
-        return this.allTaskSubject$;
+        return this.allTaskSubject.asObservable();
     }
 
     public addNewCollect(nameCollection: string) {
@@ -82,8 +71,8 @@ export class IndexedDBService {
     }
 
     public addTasks(taskData: ITask) {
-        const currentTasks = this.allTaskSubject$.getValue();
-        this.allTaskSubject$.next([...currentTasks, taskData]);
+        const currentTasks = this.allTaskSubject.getValue();
+        this.allTaskSubject.next([...currentTasks, taskData]);
         return this.http.post('addTask', taskData);
     }
 
@@ -189,14 +178,14 @@ export class IndexedDBService {
     }
 
     public updateTask(task: ITask): Observable<ITask[]> {
-        const currentTasks = this.allTaskSubject$.getValue();
+        const currentTasks = this.allTaskSubject.getValue();
         const updatedTasks = currentTasks.map((taskInArr) => {
             if (taskInArr.id === task.id) {
                 return task;
             }
             return taskInArr;
         });
-        this.allTaskSubject$.next(updatedTasks);
+        this.allTaskSubject.next(updatedTasks);
 
         return new Observable<ITask[]>((observer) => {
             const openRequest = indexedDB.open(
@@ -315,6 +304,12 @@ export class IndexedDBService {
                 return throwError(error);
             }),
         );
+    }
+
+    public registration(user: IUser) {
+        const currentUsers = this.allUserSubject.getValue();
+        this.allUserSubject.next([...currentUsers, user]);
+        return this.http.post('addUser', user);
     }
 
     public loginUser(userLogin: string): Observable<IUser> | undefined {

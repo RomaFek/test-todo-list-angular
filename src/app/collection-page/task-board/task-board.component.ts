@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ITask } from '../../add-task/models/task-model';
+import { ITask } from '../../shared/model/task-model';
 import { FormControl } from '@angular/forms';
 import { TaskCompleteService } from '../../main-page/card-task/service/task-complete.service';
 

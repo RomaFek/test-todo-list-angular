@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { IndexedDBService } from '../../../service/indexed-db.service';
+import { ITask } from '../../../shared/model/task-model';
 
 @Injectable({
     providedIn: 'root',
@@ -10,7 +11,7 @@ export class DragNDropService implements OnDestroy {
 
     constructor(private indexedDBService: IndexedDBService) {}
 
-    public onDragStart(event: DragEvent, coll: any) {
+    public onDragStart(event: DragEvent, coll: ITask) {
         if (event.dataTransfer)
             event.dataTransfer.setData('text/plain', JSON.stringify(coll));
     }

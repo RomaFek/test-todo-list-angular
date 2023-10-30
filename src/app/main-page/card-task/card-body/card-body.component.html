@@ -1,24 +1,10 @@
-<div class="card-header">
-    <div class="task-collection">
-        <mat-icon class="task-icon"
-                  [class]="colData.collection + '-icon'">{{ colData.collection }}</mat-icon>
-        {{ colData.collection }}
-    </div>
-    <a (click)="clickDropDown()">
-        <mat-icon
-            class="task-icon-dropup">{{ dropDown ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
-    </a>
-</div>
 <div class="card-body" *ngIf="dropDown">
     <ng-container *ngFor="let task of colData.tasks">
         <div class="card-container">
             <div class="card-container-left">
-                <label class="label">
-                    <app-input [task]="task"></app-input>
-                    <span [ngClass]="{'completed': task.isCompleted,'not-completed': !task.isCompleted}"
-                          [class]="'fake ' + task.collectionTask"></span>
-                    <span class="text">{{ task.description }}</span>
-                </label>
+
+                <app-custom-checkbox [colorTask]="task" [task]="task"></app-custom-checkbox>
+
                 <p class="endDate"><span
                     *ngIf="onMiniTask(task) | async as subTasks">
                                     <span class="current" *ngIf="subTasks.length">{{ subTasks | currentTask }}</span>
@@ -31,16 +17,8 @@
                         <ng-container
                             *ngIf="checkMiniTasks(task) | async"></ng-container>
                         <div class="mini-task" *ngFor="let subTask of subTasks">
-                            <label class="label">
 
-                                <app-input [task]="subTask"></app-input>
-                                <span
-                                    [ngClass]="{'completed': subTask.isCompleted,'not-completed': !subTask.isCompleted}"
-                                    [class]="'fake ' + task.collectionTask">✓</span>
-                                <span
-                                    [ngClass]="{'completed': subTask.isCompleted,'not-completed': !subTask.isCompleted}"
-                                    class="text">{{ subTask.description }}</span>
-                            </label>
+                            <app-custom-checkbox [colorTask]="task" [task]="subTask"></app-custom-checkbox>
 
                         </div>
                     </ng-container>
@@ -51,7 +29,7 @@
 
                         <a *ngIf="miniTasks.length" (click)="clickDropDownMiniTask()">
                             <mat-icon
-                                class="task-icon-dropup">{{ dropDownMiniTask ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+                                class="task-icon-dropup">{{dropDownIcon()}}</mat-icon>
                         </a>
                         </span>
                 <mat-icon (click)="openAddMiniTaskModal(task)">add</mat-icon>
@@ -62,11 +40,4 @@
             </div>
         </div>
     </ng-container>
-</div>
-<div *ngIf="dropDown">
-    <div *ngIf="colData.tasks.length > 0" class="card-bottom"
-         [routerLink]="'/collections/' + colData.collection">
-        <p>Go to Collection</p>
-        <mat-icon class="task-icon-dropup">arrow_forward</mat-icon>
-    </div>
 </div>

@@ -1,19 +1,17 @@
-import {Injectable} from '@angular/core';
-import {AddTaskComponent} from "../component/add-task.component";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {ProfileComponent} from "../../profile/profile.component";
-import {AddCollectModalComponent} from "../../collections/add-collect-modal/component/add-collect-modal.component";
-import {MiniTaskComponent} from "../../main-page/mini-task/component/mini-task.component";
-import {ITask} from "../models/task-model";
-import {ErrorModalComponent} from "../../error-modal/error-modal.component";
+import { Injectable } from '@angular/core';
+import { AddTaskComponent } from '../component/add-task.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ProfileComponent } from '../../profile/profile.component';
+import { AddCollectModalComponent } from '../../collections/add-collect-modal/component/add-collect-modal.component';
+import { MiniTaskComponent } from '../../main-page/mini-task/component/mini-task.component';
+import { ITask } from '../../shared/model/task-model';
+import { ErrorModalComponent } from '../../error-modal/error-modal.component';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ModalService {
-
-    constructor(private dialog: MatDialog) {
-    }
+    constructor(private dialog: MatDialog) {}
 
     public openModal() {
         const dialogConfig = new MatDialogConfig();
@@ -26,7 +24,7 @@ export class ModalService {
             position: {
                 top: '80px',
                 right: '0px',
-            }
+            },
         });
     }
 
@@ -36,7 +34,7 @@ export class ModalService {
 
     public openAddMiniTaskModal(coll: ITask) {
         this.dialog.open<MiniTaskComponent>(MiniTaskComponent, {
-            data: {coll},
+            data: { coll },
         });
     }
 

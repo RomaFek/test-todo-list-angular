@@ -1,5 +1,5 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {ITask} from '../../../add-task/models/task-model';
+import { Pipe, PipeTransform } from '@angular/core';
+import { ITask } from '../../../shared/model/task-model';
 
 // import { IMiniTask } from '../../mini-task/models/mini-task-model';
 

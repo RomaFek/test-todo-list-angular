@@ -1,20 +1,20 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class NavbarService {
     private sidenavVisible = new BehaviorSubject<boolean>(false);
     public sidenavVisible$ = this.sidenavVisible.asObservable();
+
     private menuVisible = new BehaviorSubject<boolean>(false);
     public menuVisible$ = this.menuVisible.asObservable();
+
     private btnLighting = new BehaviorSubject<boolean>(false);
     public btnLighting$ = this.btnLighting.asObservable();
 
-
-    constructor() {
-    }
+    constructor() {}
 
     public openSidenav() {
         this.sidenavVisible.next(true);
@@ -33,12 +33,10 @@ export class NavbarService {
     }
 
     public onPage() {
-        this.btnLighting.next(true)
-
+        this.btnLighting.next(true);
     }
 
     public leaveOnPage() {
-        this.btnLighting.next(false)
+        this.btnLighting.next(false);
     }
-
 }

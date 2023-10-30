@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DragNDropService } from '../service/drag-n-drop.service';
 import { TaskCompleteService } from '../service/task-complete.service';
-import { ICollectionObjModel } from '../model/collection-obj-model';
+import { ICollectionObjModel } from '../../../shared/model/collection-obj-model';
 import { ModalService } from '../../../add-task/services/modal.service';
-import { ITask } from '../../../add-task/models/task-model';
+import { ITask } from '../../../shared/model/task-model';
 
 @Component({
     selector: 'app-card-body',
@@ -12,10 +12,12 @@ import { ITask } from '../../../add-task/models/task-model';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardBodyComponent {
-    public dropDown: boolean = true;
+    // public dropDown: boolean = true;
     public dropDownMiniTask: boolean = true;
     @Input()
     public colData!: ICollectionObjModel;
+    @Input()
+    public dropDown!: boolean;
 
     constructor(
         private modalService: ModalService,
@@ -43,8 +45,7 @@ export class CardBodyComponent {
         return this.taskCompleteService.checkMiniTasks(task);
     }
 
-    public clickDropDown() {
-        this.dropDown = !this.dropDown;
-        console.log(this.dropDown);
+    public dropDownIcon() {
+        return this.dropDownMiniTask ? 'arrow_drop_up' : 'arrow_drop_down';
     }
 }

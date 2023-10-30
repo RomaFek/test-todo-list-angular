@@ -3,7 +3,29 @@
         <div class="task-card" *ngFor="let colData of arrColData"
              (drop)="onDrop($event, colData.collection)"
              (dragover)="allowDrop($event)">
-            <app-card-body [colData]="colData"></app-card-body>
+
+            <div class="card-header">
+                <div class="task-collection">
+                    <mat-icon class="task-icon"
+                              [class]="colData.collection + '-icon'">{{ colData.collection }}</mat-icon>
+                    {{ colData.collection }}
+                </div>
+                <a (click)="clickDropDown()">
+                    <mat-icon
+                        class="task-icon-dropup">{{ dropDown ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+                </a>
+            </div>
+
+            <app-card-body [colData]="colData" [dropDown]="dropDown"></app-card-body>
+
+            <div *ngIf="dropDown">
+                <div *ngIf="colData.tasks.length > 0" class="card-bottom"
+                     [routerLink]="'/collections/' + colData.collection">
+                    <p>Go to Collection</p>
+                    <mat-icon class="task-icon-dropup">arrow_forward</mat-icon>
+                </div>
+            </div>
+
         </div>
     </ng-container>
 </div>

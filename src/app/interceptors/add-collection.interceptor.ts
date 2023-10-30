@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { ModalService } from '../add-task/services/modal.service';
 import { mergeMap } from 'rxjs/operators';
-import { ITask } from '../add-task/models/task-model';
+import { ITask } from '../shared/model/task-model';
 import { environment } from '../../enviroment';
 
 @Injectable()

@@ -1,22 +1,25 @@
-import {TestBed} from '@angular/core/testing';
-import {TaskCompleteService} from './task-complete.service';
-import {CopyBDService} from '../../dashboard/services/copy-bd.service';
-import {HttpClient, HttpHandler} from "@angular/common/http";
-import {ITask} from "../../../add-task/models/task-model";
-import {of} from "rxjs";
+import { TestBed } from '@angular/core/testing';
+import { TaskCompleteService } from './task-complete.service';
+import { CopyBDService } from '../../dashboard/services/copy-bd.service';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { ITask } from '../../../shared/model/task-model';
+import { of } from 'rxjs';
 
 describe('TaskCompleteService', () => {
     let service: TaskCompleteService;
     let CopyBDServiceSpy: jasmine.SpyObj<CopyBDService>;
 
     beforeEach(() => {
-        CopyBDServiceSpy = jasmine.createSpyObj('copyBDService', ['updateTask', 'getOneTask']);
+        CopyBDServiceSpy = jasmine.createSpyObj('copyBDService', [
+            'updateTask',
+            'getOneTask',
+        ]);
         TestBed.configureTestingModule({
             providers: [
                 HttpClient,
                 HttpHandler,
                 TaskCompleteService,
-                {provide: CopyBDService, useValue: CopyBDServiceSpy},
+                { provide: CopyBDService, useValue: CopyBDServiceSpy },
             ],
         });
         service = TestBed.inject(TaskCompleteService);
@@ -38,7 +41,6 @@ describe('TaskCompleteService', () => {
         CopyBDServiceSpy.getOneTask.and.returnValue(of(task));
         CopyBDServiceSpy.updateTask.and.returnValue(of([task]));
 
-
         service.changeTaskCompleted(task);
 
         expect(CopyBDServiceSpy.getOneTask).toHaveBeenCalledWith(task.id);
@@ -47,5 +49,4 @@ describe('TaskCompleteService', () => {
             isCompleted: !task.isCompleted,
         });
     });
-
 });

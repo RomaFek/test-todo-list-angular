@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { ITask } from '../../add-task/models/task-model';
+import { ITask } from '../../shared/model/task-model';
 import { IndexedDBService } from '../../service/indexed-db.service';
 
 @Injectable({

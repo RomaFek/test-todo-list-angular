@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../service/auth.service';
-import { DestroyService } from '../../../shared/destroy.service';
+import { DestroyService } from '../../../shared/service/destroy.service';
 import { takeUntil } from 'rxjs';
 import { CheckValidService } from '../../service/check-valid.service';
 import { IndexedDBService } from '../../../service/indexed-db.service';
@@ -17,6 +16,7 @@ import { IndexedDBService } from '../../../service/indexed-db.service';
 export class AuthComponent {
     public submitted = false;
     public showPassword: boolean = false;
+    public authMode!: string;
     public loginGroup!: FormGroup<{
         login: FormControl<string | null>;
         password: FormControl<string | null>;
@@ -24,7 +24,6 @@ export class AuthComponent {
 
     constructor(
         private router: Router,
-        private authService: AuthService,
         private destroy$: DestroyService,
         private checkValidService: CheckValidService,
         private indexedDBService: IndexedDBService,
@@ -46,20 +45,23 @@ export class AuthComponent {
     public onSubmit(event: Event) {
         event.preventDefault();
         this.submitted = true;
-        if (this.authService) {
-            const loginValue = this.loginGroup.controls.login.value;
-            if (loginValue) {
-                this.indexedDBService
-                    .loginUser(loginValue)
-                    ?.pipe(takeUntil(this.destroy$))
-                    .subscribe((user) => {
-                        if (user) {
-                            sessionStorage.setItem('authenticated', 'true');
-                            this.router.navigate(['/']);
-                        }
-                    });
-            }
+
+        const loginValue = this.loginGroup.controls.login.value;
+        if (loginValue) {
+            this.indexedDBService
+                .loginUser(loginValue)
+                ?.pipe(takeUntil(this.destroy$))
+                .subscribe((user) => {
+                    if (user) {
+                        sessionStorage.setItem('authenticated', 'true');
+                        this.router.navigate(['/']);
+                    }
+                });
         }
+    }
+
+    public switchMode(newMode: 'login' | 'register') {
+        this.authMode = newMode;
     }
 
     public getErrorMessage(submitted: boolean, controls: FormControl) {

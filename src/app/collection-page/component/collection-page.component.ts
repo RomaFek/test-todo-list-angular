@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, takeUntil } from 'rxjs';
 import { NavbarService } from '../../navbar/services/navbar.service';
-import { ITask } from '../../add-task/models/task-model';
-import { DestroyService } from '../../shared/destroy.service';
+import { ITask } from '../../shared/model/task-model';
+import { DestroyService } from '../../shared/service/destroy.service';
 import { ModalService } from '../../add-task/services/modal.service';
 import { IndexedDBService } from '../../service/indexed-db.service';
 

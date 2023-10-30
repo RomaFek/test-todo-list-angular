@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { ITask } from '../../../add-task/models/task-model';
+import { ITask } from '../../../shared/model/task-model';
 import {
     filter,
     map,

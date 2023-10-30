@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DestroyService } from '../../../shared/destroy.service';
+import { DestroyService } from '../../../shared/service/destroy.service';
 import { ModalService } from '../../../add-task/services/modal.service';
 import { TaskCompleteService } from '../service/task-complete.service';
 import { DragNDropService } from '../service/drag-n-drop.service';
 import { UniqCollectService } from '../../dashboard/services/uniq-collect.service';
-import { ITask } from '../../../add-task/models/task-model';
+import { ITask } from '../../../shared/model/task-model';
 import { ActivatedRoute } from '@angular/router';
 import { CheckCompleteService } from '../service/check-complete.service';
 import { Observable, switchMap } from 'rxjs';
-import { ICollectionObjModel } from '../model/collection-obj-model';
+import { ICollectionObjModel } from '../../../shared/model/collection-obj-model';
 
 @Component({
     selector: 'app-card-task',

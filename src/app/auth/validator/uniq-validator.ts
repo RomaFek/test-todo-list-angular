@@ -5,15 +5,12 @@ import {
     ValidationErrors,
 } from '@angular/forms';
 import { catchError, map, Observable, of } from 'rxjs';
-import { AuthService } from '../service/auth.service';
+
 import { IndexedDBService } from '../../service/indexed-db.service';
 
 @Injectable({ providedIn: 'root' })
 export class UniqueLoginValidator {
-    constructor(
-        private authService: AuthService,
-        private indexedDBService: IndexedDBService,
-    ) {}
+    constructor(private indexedDBService: IndexedDBService) {}
 
     public validateLoginUniqueness(): AsyncValidatorFn {
         return (

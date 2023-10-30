@@ -1,24 +1,24 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {CardTaskComponent} from './card-task.component';
-import {ITask} from '../../../add-task/models/task-model';
-import {IMiniTask} from '../../mini-task/models/mini-task-model';
-import {TaskCompleteService} from '../service/task-complete.service';
-import {AddMiniTaskService} from '../service/add-mini-task.service';
-import {CopyBDService} from "../../dashboard/services/copy-bd.service";
-import {DestroyService} from "../../../shared/destroy.service";
-import {MatDialogModule} from "@angular/material/dialog";
-import {ModalService} from "../../../add-task/services/modal.service";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CardTaskComponent } from './card-task.component';
+import { ITask } from '../../../shared/model/task-model';
+import { IMiniTask } from '../../mini-task/models/mini-task-model';
+import { TaskCompleteService } from '../service/task-complete.service';
+import { AddMiniTaskService } from '../service/add-mini-task.service';
+import { CopyBDService } from '../../dashboard/services/copy-bd.service';
+import { DestroyService } from '../../../shared/service/destroy.service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalService } from '../../../add-task/services/modal.service';
 
 describe('CardTaskComponent', () => {
     let component: CardTaskComponent;
     let fixture: ComponentFixture<CardTaskComponent>;
 
-    let CopyBDServiceSpy: jasmine.SpyObj<CopyBDService>
-    let TaskCompleteServiceSpy: jasmine.SpyObj<TaskCompleteService>
-    let AddMiniTaskServiceSpy: jasmine.SpyObj<AddMiniTaskService>
-    let ModalServiceSpy: jasmine.SpyObj<ModalService>
-    let mockTaskData: ITask[]
-    let mockMiniTasks: IMiniTask[]
+    let CopyBDServiceSpy: jasmine.SpyObj<CopyBDService>;
+    let TaskCompleteServiceSpy: jasmine.SpyObj<TaskCompleteService>;
+    let AddMiniTaskServiceSpy: jasmine.SpyObj<AddMiniTaskService>;
+    let ModalServiceSpy: jasmine.SpyObj<ModalService>;
+    let mockTaskData: ITask[];
+    let mockMiniTasks: IMiniTask[];
 
     beforeEach(() => {
         mockTaskData = [
@@ -47,21 +47,36 @@ describe('CardTaskComponent', () => {
             },
         ];
 
-        CopyBDServiceSpy = jasmine.createSpyObj('CopyBDService', ['updateTask']);
-        TaskCompleteServiceSpy = jasmine.createSpyObj('TaskCompleteService', ['changeTaskCompleted']);
-        AddMiniTaskServiceSpy = jasmine.createSpyObj('AddMiniTaskService', ['allMiniTasks', 'checkMiniTasks']);
-        ModalServiceSpy = jasmine.createSpyObj('ModalService', ['openAddMiniTaskModal']);
+        CopyBDServiceSpy = jasmine.createSpyObj('CopyBDService', [
+            'updateTask',
+        ]);
+        TaskCompleteServiceSpy = jasmine.createSpyObj('TaskCompleteService', [
+            'changeTaskCompleted',
+        ]);
+        AddMiniTaskServiceSpy = jasmine.createSpyObj('AddMiniTaskService', [
+            'allMiniTasks',
+            'checkMiniTasks',
+        ]);
+        ModalServiceSpy = jasmine.createSpyObj('ModalService', [
+            'openAddMiniTaskModal',
+        ]);
 
         TestBed.configureTestingModule({
             declarations: [CardTaskComponent],
             providers: [
                 DestroyService,
-                {provide: CopyBDService, useValue: CopyBDServiceSpy},
-                {provide: TaskCompleteService, useValue: TaskCompleteServiceSpy},
-                {provide: AddMiniTaskService, useValue: AddMiniTaskServiceSpy},
-                {provide: ModalService, useValue: ModalServiceSpy},
+                { provide: CopyBDService, useValue: CopyBDServiceSpy },
+                {
+                    provide: TaskCompleteService,
+                    useValue: TaskCompleteServiceSpy,
+                },
+                {
+                    provide: AddMiniTaskService,
+                    useValue: AddMiniTaskServiceSpy,
+                },
+                { provide: ModalService, useValue: ModalServiceSpy },
             ],
-            imports: [MatDialogModule]
+            imports: [MatDialogModule],
         });
 
         fixture = TestBed.createComponent(CardTaskComponent);
@@ -71,7 +86,6 @@ describe('CardTaskComponent', () => {
     it('should create the component', () => {
         expect(component).toBeTruthy();
     });
-
 
     it('should toggle dropDown property when clicking the dropdown button', () => {
         expect(component.dropDown).toBeTrue();
@@ -109,7 +123,8 @@ describe('CardTaskComponent', () => {
         const mockTask = mockTaskData[0];
 
         component.openAddMiniTaskModal(mockTask);
-        expect(ModalServiceSpy.openAddMiniTaskModal).toHaveBeenCalledWith(mockTask);
+        expect(ModalServiceSpy.openAddMiniTaskModal).toHaveBeenCalledWith(
+            mockTask,
+        );
     });
-
 });

@@ -4,10 +4,10 @@ import {
     Input,
     OnInit,
 } from '@angular/core';
-import { ITask } from '../../add-task/models/task-model';
+import { ITask } from '../../shared/model/task-model';
 import { FormControl, Validators } from '@angular/forms';
 import { map, takeUntil } from 'rxjs';
-import { DestroyService } from '../../shared/destroy.service';
+import { DestroyService } from '../../shared/service/destroy.service';
 import { IndexedDBService } from '../../service/indexed-db.service';
 
 @Component({

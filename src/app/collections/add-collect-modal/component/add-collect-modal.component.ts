@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DialogRef } from '@angular/cdk/dialog';
 import { FormControl, Validators } from '@angular/forms';
-import { DestroyService } from '../../../shared/destroy.service';
+import { DestroyService } from '../../../shared/service/destroy.service';
 import { takeUntil } from 'rxjs';
 import { IndexedDBService } from '../../../service/indexed-db.service';
 

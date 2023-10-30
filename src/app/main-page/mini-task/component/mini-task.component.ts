@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { FormControl, Validators } from '@angular/forms';
-import { DestroyService } from '../../../shared/destroy.service';
+import { DestroyService } from '../../../shared/service/destroy.service';
 import { takeUntil } from 'rxjs';
-import { ITask } from '../../../add-task/models/task-model';
+import { ITask } from '../../../shared/model/task-model';
 import { IndexedDBService } from '../../../service/indexed-db.service';
 
 @Component({

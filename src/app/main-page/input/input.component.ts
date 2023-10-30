@@ -4,7 +4,7 @@ import {
     Input,
     OnInit,
 } from '@angular/core';
-import { ITask } from '../../add-task/models/task-model';
+import { ITask } from '../../shared/model/task-model';
 import { FormControl } from '@angular/forms';
 import { TaskCompleteService } from '../card-task/service/task-complete.service';
 
