@@ -7,7 +7,8 @@ import { UniqCollectService } from '../../dashboard/services/uniq-collect.servic
 import { ITask } from '../../../add-task/models/task-model';
 import { ActivatedRoute } from '@angular/router';
 import { CheckCompleteService } from '../service/check-complete.service';
-import { takeUntil } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
+import { ICollectionObjModel } from '../model/collection-obj-model';
 
 @Component({
     selector: 'app-card-task',
@@ -20,6 +21,7 @@ export class CardTaskComponent {
     public dropDown: boolean = true;
     public dropDownMiniTask: boolean = true;
     private pathSegments!: string;
+    public collectionsObjects$!: Observable<ICollectionObjModel[]>;
 
     constructor(
         private modalService: ModalService,
@@ -30,10 +32,17 @@ export class CardTaskComponent {
         private destroy$: DestroyService,
         private checkCompleteService: CheckCompleteService,
     ) {
-        this.route.url.pipe(takeUntil(this.destroy$)).subscribe((segments) => {
-            this.pathSegments = segments.map((segment) => segment.path).join();
-        });
-        // this.arrayCollect$();
+        this.collectionsObjects$ = this.route.url.pipe(
+            switchMap((value) => {
+                if (value.join() === 'today') {
+                    return this.checkCompleteService.arrayObjCollectionToday$();
+                }
+                if (this.pathSegments === 'wasted') {
+                    return this.checkCompleteService.arrayObjCollectionsWasted$();
+                } else
+                    return this.uniqCollectService.arrayObjCollectionsNotCompleted$();
+            }),
+        );
     }
 
     public clickDropDown() {
@@ -42,17 +51,6 @@ export class CardTaskComponent {
 
     public clickDropDownMiniTask() {
         this.dropDownMiniTask = !this.dropDownMiniTask;
-    }
-
-    public arrayCollect$() {
-        if (this.pathSegments === 'today') {
-            return this.checkCompleteService.arrayObjCollectionToday$();
-        }
-        if (this.pathSegments === 'wasted') {
-            return this.checkCompleteService.arrayObjCollectionsWasted$();
-        } else
-            return this.uniqCollectService.arrayObjCollectionsNotCompleted$();
-        // .subscribe((v) => console.log(v));
     }
 
     public onDrop($event: DragEvent, collection: string | null | undefined) {

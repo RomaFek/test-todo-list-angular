@@ -1,7 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
-import { map } from 'rxjs';
+import { map, take } from 'rxjs';
 import { CopyBDService } from './copy-bd.service';
 import { IndexedDBService } from '../../../service/indexed-db.service';
+import { ITask } from '../../../add-task/models/task-model';
 
 @Injectable({
     providedIn: 'root',
@@ -22,18 +23,13 @@ export class UniqCollectService implements OnInit {
     }
 
     private uniqueObjectTasksInCollection() {
-        // if (this.copyBDService.allTaskSubject$.value.length === 0) {
-        //     console.log(123123123);
-        //     this.getTasks()
-        //         .pipe(
-        //             tap((v) => console.log(v, '----')),
-        //             take(1),
-        //         )
-        //         .subscribe((tasks: ITask[]) => {
-        //             this.copyBDService.allTaskSubject$.next(tasks);
-        //         });
-        // }
-        console.log(7777);
+        if (this.copyBDService.allTaskSubject$.value.length === 0) {
+            this.getTasks()
+                .pipe(take(1))
+                .subscribe((tasks: ITask[]) => {
+                    this.copyBDService.allTaskSubject$.next(tasks);
+                });
+        }
         return this.indexedDBService.initDBTasks().pipe(
             map((tasks) => {
                 const uniqueCollections = Array.from(

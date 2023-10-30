@@ -1,10 +1,10 @@
 <div class="container">
-    <!--    <ng-container *ngIf="arrayCollect$() | async as arrColData">-->
-    <!--        <div class="task-card" *ngFor="let colData of arrColData"-->
-    <!--             (drop)="onDrop($event, colData.collection)"-->
-    <!--             (dragover)="allowDrop($event)">-->
-    <!--            <app-card-body [colData]="colData"></app-card-body>-->
-    <!--        </div>-->
-    <!--    </ng-container>-->
+    <ng-container *ngIf="collectionsObjects$ | async as arrColData">
+        <div class="task-card" *ngFor="let colData of arrColData"
+             (drop)="onDrop($event, colData.collection)"
+             (dragover)="allowDrop($event)">
+            <app-card-body [colData]="colData"></app-card-body>
+        </div>
+    </ng-container>
 </div>
 
