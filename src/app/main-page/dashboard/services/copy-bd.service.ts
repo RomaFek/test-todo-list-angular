@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ITask } from '../../../add-task/models/task-model';
 // import {OperationTaskService} from "./operation-task.service";
 import { HttpClient } from '@angular/common/http';
@@ -9,10 +9,6 @@ import { IndexedDBService } from '../../../service/indexed-db.service';
     providedIn: 'root',
 })
 export class CopyBDService {
-    allTaskSubject$: BehaviorSubject<ITask[]> = new BehaviorSubject<ITask[]>(
-        [],
-    );
-
     // private notCompletedTaskSubject$: BehaviorSubject<ITask[]> = new BehaviorSubject<ITask[]>([]);
 
     constructor(
@@ -22,10 +18,6 @@ export class CopyBDService {
     ) {
         // this.getTasks();
         // this.getNotCompletedTasks()
-    }
-
-    public get allTasks(): BehaviorSubject<ITask[]> {
-        return this.allTaskSubject$;
     }
 
     // public getTasks() {

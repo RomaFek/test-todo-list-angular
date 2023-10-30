@@ -23,14 +23,14 @@ export class UniqCollectService implements OnInit {
     }
 
     private uniqueObjectTasksInCollection() {
-        if (this.copyBDService.allTaskSubject$.value.length === 0) {
+        if (this.indexedDBService.allTaskSubject$.value.length === 0) {
             this.getTasks()
                 .pipe(take(1))
                 .subscribe((tasks: ITask[]) => {
-                    this.copyBDService.allTaskSubject$.next(tasks);
+                    this.indexedDBService.allTaskSubject$.next(tasks);
                 });
         }
-        return this.indexedDBService.initDBTasks().pipe(
+        return this.indexedDBService.allTaskSubject$.pipe(
             map((tasks) => {
                 const uniqueCollections = Array.from(
                     new Set(tasks.map((task) => task.collectionTask)),
@@ -75,7 +75,6 @@ export class UniqCollectService implements OnInit {
     // }
 
     public arrayObjCollectionsNotCompleted$() {
-        console.log(9999);
         return this.uniqueObjectTasksInCollection().pipe(
             map((uniqueCollections) => {
                 return uniqueCollections

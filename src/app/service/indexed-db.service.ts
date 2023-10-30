@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { ITask } from '../add-task/models/task-model';
 import { IUser } from '../auth/model/user-model';
 import { ICollection } from '../collections/model/collection';
@@ -9,7 +9,15 @@ import { environment } from '../../enviroment';
     providedIn: 'root',
 })
 export class IndexedDBService {
+    allTaskSubject$: BehaviorSubject<ITask[]> = new BehaviorSubject<ITask[]>(
+        [],
+    );
+
     constructor() {}
+
+    public get allTasks(): BehaviorSubject<ITask[]> {
+        return this.allTaskSubject$;
+    }
 
     private openRequestOnSuccess(req: IDBOpenDBRequest, namingDb: string) {
         return new Observable<any>((observer) => {
