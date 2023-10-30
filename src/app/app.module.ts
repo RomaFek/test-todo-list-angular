@@ -16,7 +16,7 @@ import { SidenavComponent } from './main-page/sidenav/sidenav.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CustomDatePipe } from './main-page/dashboard/pipe/custom-date.pipe';
 import { CollectionPageComponent } from './collection-page/component/collection-page.component';
-import { InputComponent } from './main-page/input/input/input.component';
+import { InputComponent } from './main-page/input/input.component';
 import { AuthComponent } from './auth/authorization/component/auth.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 import { RegistrationInterceptor } from './interceptors/registration.interceptor';
@@ -26,8 +26,6 @@ import { EditCollectionComponent } from './collection-page/edit-collection/edit-
 import { AddCollectModalComponent } from './collections/add-collect-modal/component/add-collect-modal.component';
 import { AddCollectionInterceptor } from './interceptors/add-collection.interceptor';
 import { MiniTaskComponent } from './main-page/mini-task/component/mini-task.component';
-// import { AddMiniTaskInterceptor } from './interceptors/add-mini-task.interceptor';
-import { MiniTaskInputComponent } from './main-page/input/mini-task-input/mini-task-input.component';
 import { ErrorModalComponent } from './error-modal/error-modal.component';
 import { WhatsTimePipe } from './main-page/dashboard/pipe/whats-time.pipe';
 import { CurrentTaskPipe } from './main-page/dashboard/pipe/current-task.pipe';
@@ -54,7 +52,6 @@ import { BackofficeComponent } from './backoffice/backoffice.component';
         EditCollectionComponent,
         AddCollectModalComponent,
         MiniTaskComponent,
-        MiniTaskInputComponent,
         ErrorModalComponent,
         WhatsTimePipe,
         CurrentTaskPipe,
@@ -89,11 +86,6 @@ import { BackofficeComponent } from './backoffice/backoffice.component';
             useClass: AddCollectionInterceptor,
             multi: true,
         },
-        // {
-        //     provide: HTTP_INTERCEPTORS,
-        //     useClass: AddMiniTaskInterceptor,
-        //     multi: true,
-        // },
     ],
     bootstrap: [AppComponent],
 })

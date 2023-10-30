@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DialogRef } from '@angular/cdk/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DestroyService } from '../../shared/destroy.service';
-import { takeUntil } from 'rxjs';
+import { map, takeUntil } from 'rxjs';
 import { ITask } from '../models/task-model';
 import { IndexedDBService } from '../../service/indexed-db.service';
 
@@ -15,6 +15,7 @@ import { IndexedDBService } from '../../service/indexed-db.service';
 })
 export class AddTaskComponent {
     public submitted = false;
+    public collection$;
     public newTaskGroup!: FormGroup<{
         description: FormControl<string | null>;
         endDate: FormControl<string | null>;
@@ -26,6 +27,9 @@ export class AddTaskComponent {
         private destroy$: DestroyService,
         private indexedDBService: IndexedDBService,
     ) {
+        this.collection$ = this.indexedDBService.allCollections.pipe(
+            map((arr) => arr.map((collection) => collection.name)),
+        );
         this._createForm();
     }
 
@@ -61,9 +65,9 @@ export class AddTaskComponent {
         }
     }
 
-    public collection$() {
-        return this.indexedDBService.collection$;
-    }
+    // public collection$() {
+    //     return this.indexedDBService.collection$();
+    // }
 
     public closeModal() {
         this.dialogRef.close();

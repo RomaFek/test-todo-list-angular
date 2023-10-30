@@ -4,9 +4,9 @@ import {
     Input,
     OnInit,
 } from '@angular/core';
-import { ITask } from '../../../add-task/models/task-model';
+import { ITask } from '../../add-task/models/task-model';
 import { FormControl } from '@angular/forms';
-import { TaskCompleteService } from '../../card-task/service/task-complete.service';
+import { TaskCompleteService } from '../card-task/service/task-complete.service';
 
 @Component({
     selector: 'app-input',

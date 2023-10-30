@@ -26,7 +26,7 @@ export class AddCollectModalComponent {
     public onSubmit() {
         if (this.newCollection.value)
             this.indexedDBService
-                .setNewCollect(this.newCollection.value)
+                .addNewCollect(this.newCollection.value)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe();
 

@@ -12,7 +12,7 @@
     <div class="form-item">
         <label for="task-collection">Collection:</label>
         <select id="task-collection" [formControl]="newTaskGroup.controls.collectionTask">
-            <option *ngFor="let collect of collection$() | async"
+            <option *ngFor="let collect of collection$ | async"
                     [value]="collect">{{collect}}</option>
         </select>
     </div>

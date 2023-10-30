@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ITask } from '../../add-task/models/task-model';
 import { FormControl, Validators } from '@angular/forms';
-import { takeUntil } from 'rxjs';
+import { map, takeUntil } from 'rxjs';
 import { DestroyService } from '../../shared/destroy.service';
 import { IndexedDBService } from '../../service/indexed-db.service';
 
@@ -22,11 +22,16 @@ export class EditCollectionComponent implements OnInit {
     @Input()
     public task!: ITask;
     public changeTask!: FormControl<string | null | undefined>;
+    public collection$;
 
     constructor(
         private destroy$: DestroyService,
         private indexedDBService: IndexedDBService,
-    ) {}
+    ) {
+        this.collection$ = this.indexedDBService.allCollections.pipe(
+            map((arr) => arr.map((collection) => collection.name)),
+        );
+    }
 
     public ngOnInit() {
         this.changeTask = new FormControl(
@@ -47,9 +52,5 @@ export class EditCollectionComponent implements OnInit {
                 .pipe(takeUntil(this.destroy$))
                 .subscribe();
         }
-    }
-
-    public collection() {
-        return this.indexedDBService.collection$;
     }
 }

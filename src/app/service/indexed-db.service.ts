@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
     BehaviorSubject,
     catchError,
-    map,
     Observable,
     take,
     tap,
@@ -21,32 +20,40 @@ export class IndexedDBService {
     allTaskSubject$: BehaviorSubject<ITask[]> = new BehaviorSubject<ITask[]>(
         [],
     );
-    private initialValue: string[] = [
-        'work',
-        'person',
-        'pets',
-        'groups',
-        'medication',
-        'payments',
+    private initialValue: ICollection[] = [
+        { id: 1, name: 'work' },
+        { id: 2, name: 'person' },
+        { id: 3, name: 'pets' },
+        { id: 4, name: 'groups' },
+        { id: 5, name: 'medication' },
+        { id: 6, name: 'payments' },
     ];
-    private collectionSubject: BehaviorSubject<string[]> = new BehaviorSubject(
-        this.initialValue,
-    );
-    public collection$ = this.collectionSubject.asObservable();
+    private collectionSubject: BehaviorSubject<ICollection[]> =
+        new BehaviorSubject<ICollection[]>(this.initialValue);
 
-    constructor(private http: HttpClient) {
-        this.getCollections();
+    // public collection$(): Observable<string[]> {
+    //     return this.getCollections().pipe(
+    //         switchMap(() => this.collectionSubject.asObservable()),
+    //     );
+    // }
+
+    constructor(private http: HttpClient) {}
+
+    private getCollections(): Observable<ICollection[]> {
+        console.log(this.collectionSubject);
+        return this.initDBCollections();
     }
 
-    public getCollections() {
-        this.initDBCollections()
-            .pipe(
-                map((el) => el.map((el) => el.name)),
-                take(1),
-            )
-            .subscribe((col: string[]) => {
-                this.collectionSubject.next(col);
+    public get allCollections(): BehaviorSubject<ICollection[]> {
+        console.log(this.collectionSubject);
+        this.getCollections()
+            .pipe(take(1))
+            .subscribe((col: ICollection[]) => {
+                let newValue = [...col, ...this.initialValue];
+                this.collectionSubject.next(newValue);
             });
+
+        return this.collectionSubject;
     }
 
     private getTasks() {
@@ -64,11 +71,14 @@ export class IndexedDBService {
         return this.allTaskSubject$;
     }
 
-    public setNewCollect(newCollect: string) {
-        const currentCollection = this.collectionSubject.getValue();
-        currentCollection.push(newCollect);
+    public addNewCollect(nameCollection: string) {
+        const newCollection = { id: Date.now(), name: nameCollection };
+        const currentCollection = [
+            ...this.collectionSubject.getValue(),
+            newCollection,
+        ];
         this.collectionSubject.next(currentCollection);
-        return this.http.post('addCollection', newCollect);
+        return this.http.post('addCollection', nameCollection);
     }
 
     public addTasks(taskData: ITask) {
@@ -127,22 +137,6 @@ export class IndexedDBService {
         });
     }
 
-    // public initDBSubTasks() {
-    //   const openRequest = indexedDB.open(this.nameDbSubTasks, this.versionDB);
-    //   const namingDb = this.nameDbSubTasks;
-    //   return new Observable<ITask[]>((observer) => {
-    //     openRequest.onupgradeneeded = function (event) {
-    //       const db = openRequest.result;
-    //
-    //       if (!db.objectStoreNames.contains(namingDb)) {
-    //         let store = db.createObjectStore(namingDb, { keyPath: 'id' });
-    //         store.createIndex('task_id', 'task_id');
-    //       }
-    //     };
-    //     this.openRequestOnSuccess(openRequest, namingDb);
-    //   });
-    // }
-
     public initDBUsers() {
         const openRequest = indexedDB.open(
             environment.nameDbUsers,
@@ -160,7 +154,12 @@ export class IndexedDBService {
                     store.createIndex('login_idx', 'login');
                 }
             };
-            this.openRequestOnSuccess(openRequest, namingDb);
+            this.openRequestOnSuccess(openRequest, namingDb).subscribe(
+                (users: IUser[]) => {
+                    observer.next(users);
+                    observer.complete();
+                },
+            );
         });
     }
 
@@ -180,7 +179,12 @@ export class IndexedDBService {
                     });
                 }
             };
-            this.openRequestOnSuccess(openRequest, namingDb);
+            this.openRequestOnSuccess(openRequest, namingDb).subscribe(
+                (collections: ICollection[]) => {
+                    observer.next(collections);
+                    observer.complete();
+                },
+            );
         });
     }
 
