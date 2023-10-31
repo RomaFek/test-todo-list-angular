@@ -1,0 +1,174 @@
+.body-container {
+    min-height: calc(100vh - 70px);
+    background-color: #181820;
+}
+
+.container {
+    width: 100%;
+    background-color: #181820;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.header {
+    color: #f8f8f8;
+    display: flex;
+    width: 400px;
+    margin-top: 40px;
+}
+
+.container-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    background-color: #181820;
+
+}
+
+.content {
+    max-height: calc(100vh - 70px);
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 800px;
+}
+
+.card {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    margin: 10px;
+    padding-left: 20px;
+    background-color: #21212b;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #3f3f4d;
+    }
+}
+
+
+.bot-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 40px;
+    //padding-left: 20px;
+    color: white;
+
+    h2 {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+mat-icon {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    margin: 20px;
+    padding-top: 10px;
+    width: 50px;
+    height: 35px;
+    border-radius: 10px;
+    color: white;
+}
+
+.work-icon {
+    background-color: #fc76a1;
+}
+
+.person-icon {
+    background-color: #a96bda;
+}
+
+.pets-icon {
+    background-color: #3380cb;
+}
+
+.groups-icon {
+    background-color: #795548;
+}
+
+.medication-icon {
+    background-color: #ffeb3b;
+}
+
+.payments-icon {
+    background-color: #70c4bf;
+}
+
+
+.done {
+    display: flex;
+    color: #8e8e93;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 0 10px 20px;
+}
+
+
+.add-container {
+    display: flex;
+    align-items: flex-start;
+    height: 200px;
+    margin: 10px;
+}
+
+.add-collection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 100px;
+    border: 3px solid #21212b;
+    border-radius: 10px;
+    cursor: pointer;
+
+    mat-icon {
+        color: #8a8a8e;
+    }
+}
+
+@media screen and (max-width: 660px) {
+    .container {
+        overflow-y: auto;
+        margin-bottom: 5px;
+    }
+    .content {
+        width: 100%;
+    }
+    .add-container {
+        height: 160px;
+    }
+    .add-collection {
+        width: 160px;
+        height: 80px;
+    }
+    .card {
+        width: 160px;
+        height: 160px;
+
+        .bot-card {
+            padding: 0;
+            display: flex;
+            margin-left: 20px;
+
+        }
+    }
+    .done {
+        padding: 10px 0 10px 0;
+        margin-left: 20px;
+    }
+    .header {
+        margin-left: 50px;
+    }
+
+}

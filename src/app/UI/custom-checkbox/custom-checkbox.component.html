@@ -1,0 +1,9 @@
+<label class="label">
+    <app-input [task]="task"></app-input>
+    <span
+        [ngClass]="{'completed': task.isCompleted,'not-completed': !task.isCompleted}"
+        [class]="'fake ' + colorTask.collectionTask">✓</span>
+    <span
+        [ngClass]="{'completed': task.isCompleted,'not-completed': !task.isCompleted}"
+        class="text">{{ task.description }}</span>
+</label>

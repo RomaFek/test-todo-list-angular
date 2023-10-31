@@ -1,0 +1,9 @@
+<div class="task" *ngFor="let  task of tasks">
+    <div>
+
+        <app-custom-checkbox [colorTask]="task" [task]="task"></app-custom-checkbox>
+
+        <p class="endDate" *ngIf="task.endDate">{{task.endDate | customDate}}</p>
+    </div>
+    <app-edit-collection [task]="task"></app-edit-collection>
+</div>
