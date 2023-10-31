@@ -1,0 +1,285 @@
+
+.label {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+
+}
+
+.fake {
+    display: inline-block;
+    color: #21212b;
+    width: 17px;
+    height: 17px;
+    margin: 10px;
+    border-radius: 7px;
+    position: relative;
+    cursor: pointer;
+    border: 2px solid white;
+}
+
+.completed::before {
+    background-color: white;
+    content: "✓";
+    color: black;
+    font-size: 16px;
+    padding-left: 3px;
+    position: absolute;
+    display: block;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: .2s;
+}
+
+.checkbox:checked + .fake::before {
+    opacity: 1;
+}
+
+.text {
+    color: white;
+    cursor: pointer;
+}
+
+.fake.work {
+    border: 2px solid #fc76a1;
+}
+
+.fake.person {
+    border: 2px solid #a96bda;
+}
+
+.fake.groups {
+    border: 2px solid #795548;
+}
+
+.fake.pets {
+    border: 2px solid #3380cb;
+}
+
+.fake.payments {
+    border: 2px solid #70c4bf;
+}
+
+.fake.medication {
+    border: 2px solid #ffeb3b;
+}
+
+.fake.groups.completed::before {
+    background-color: #795548;
+    content: "✓";
+    font-size: 16px;
+    padding-left: 3px;
+    position: absolute;
+    display: block;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: .2s;
+}
+
+.fake.work.completed::before {
+    background-color: #fc76a1;
+    content: "✓";
+    font-size: 16px;
+    padding-left: 3px;
+    position: absolute;
+    display: block;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: .2s;
+}
+
+.fake.person.completed::before {
+    background-color: #a96bda;
+    content: "✓";
+    font-size: 16px;
+    padding-left: 3px;
+    position: absolute;
+    display: block;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: .2s;
+}
+
+.fake.pets.completed::before {
+    background-color: #3380cb;
+    content: "✓";
+    font-size: 16px;
+    padding-left: 3px;
+    position: absolute;
+    display: block;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: .2s;
+}
+
+.fake.payments.completed::before {
+    background-color: #70c4bf;
+    content: "✓";
+    font-size: 16px;
+    padding-left: 3px;
+    position: absolute;
+    display: block;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: .2s;
+}
+
+.fake.medication.completed::before {
+    background-color: #ffeb3b;
+    content: "✓";
+    font-size: 16px;
+    padding-left: 3px;
+    position: absolute;
+    display: block;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: .2s;
+}
+
+.task-icon-dropup {
+    color: #86868d;
+    cursor: pointer;
+}
+
+
+.fake.completed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    content: "✓";
+    color: #21212b;
+    font-size: 16px;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    transition: .2s;
+}
+
+.fake.work.completed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fc76a1;
+    content: "✓";
+    color: #21212b;
+    font-size: 16px;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    transition: .2s;
+}
+
+.fake.person.completed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #a96bda;
+    content: "✓";
+    color: #21212b;
+    font-size: 16px;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    transition: .2s;
+}
+
+.fake.payments.completed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #70c4bf;
+    content: "✓";
+    color: #21212b;
+    font-size: 16px;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    transition: .2s;
+}
+
+.fake.groups.completed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #795548;
+    content: "✓";
+    color: #21212b;
+    font-size: 16px;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    transition: .2s;
+}
+
+.fake.pets.completed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3380cb;
+    content: "✓";
+    color: #21212b;
+    width: 17px;
+    height: 17px;
+    transition: .2s;
+}
+
+.fake.medication.completed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffeb3b;
+    content: "✓";
+    color: #21212b;
+    font-size: 16px;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    transition: .2s;
+}
+
+.text.completed {
+    text-decoration: line-through;
+}
+
+.mini-task {
+    margin-left: 25px;
+    margin-bottom: 12px;
+}
+
+

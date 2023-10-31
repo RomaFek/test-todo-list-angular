@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="header">
+        <h1>Collections</h1>
+    </div>
+    <div class="container-content">
+        <div class="content">
+            <div routerLink="/collections/{{collectionTask}}"
+                 *ngFor="let collectionTask of arrayCollections$ | async"
+                 class="card">
+                <div class="head-card">
+                    <mat-icon class="task-icon" [class]="collectionTask + '-icon'">{{ collectionTask }}</mat-icon>
+                </div>
+                <div class="bot-card">
+                    <h2>{{collectionTask}}</h2>
+                </div>
+                <div *ngIf="collectionTask" class="done">{{ (quantity$(collectionTask) | async)}}</div>
+            </div>
+            <div class="add-container">
+                <div class="add-collection" (click)="openAddCollect()">
+                    <mat-icon>add</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

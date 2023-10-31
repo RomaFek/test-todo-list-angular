@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="sidenav">
+        <div class="header">
+            <h1>Collections</h1>
+        </div>
+        <a *ngFor="let collection of getUniqueCollections() | async"
+           routerLink="/collections/{{collection}}"
+           class="navbar-item">
+            <mat-icon [class]="collection">{{ collection }}</mat-icon>
+            {{ collection }}
+        </a>
+    </div>
+</div>

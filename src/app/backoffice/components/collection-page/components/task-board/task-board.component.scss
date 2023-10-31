@@ -1,0 +1,28 @@
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #21212b;
+    width: 550px;
+    height: 100px;
+    padding-left: 20px;
+    border-radius: 25px;
+    margin: 20px;
+}
+
+
+.endDate {
+    color: #c05354;
+    font-weight: normal;
+    margin-left: 40px;
+}
+
+
+@media screen and (max-width: 660px) {
+    .task {
+        width: 350px;
+        height: 100px;
+    }
+
+}

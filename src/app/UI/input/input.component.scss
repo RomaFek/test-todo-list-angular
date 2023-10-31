@@ -1,0 +1,8 @@
+
+.checkbox {
+    display: none;
+}
+
+.checkbox:checked + .fake::before {
+    opacity: 1;
+}
