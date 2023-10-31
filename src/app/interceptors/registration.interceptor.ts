@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IUser } from '../shared/model/user-model';
-import { ModalService } from '../add-task/services/modal.service';
+import { ModalService } from '../navbar/add-task/services/modal.service';
 import { mergeMap } from 'rxjs/operators';
 import { environment } from '../../enviroment';
 

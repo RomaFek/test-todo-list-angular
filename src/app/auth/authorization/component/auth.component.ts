@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { DestroyService } from '../../../shared/service/destroy.service';
 import { takeUntil } from 'rxjs';
 import { CheckValidService } from '../../service/check-valid.service';
-import { IndexedDBService } from '../../../service/indexed-db.service';
+import { IndexedDBService } from '../../../shared/service/indexed-db.service';
 import { UniqueLoginValidator } from '../../validator/uniq-validator';
 
 @Component({

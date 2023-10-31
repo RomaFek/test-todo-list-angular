@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 import { catchError, map, Observable, of } from 'rxjs';
 
-import { IndexedDBService } from '../../service/indexed-db.service';
+import { IndexedDBService } from '../../shared/service/indexed-db.service';
 
 @Injectable({ providedIn: 'root' })
 export class UniqueLoginValidator {

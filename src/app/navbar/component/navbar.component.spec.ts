@@ -1,9 +1,9 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {NavbarComponent} from './navbar.component';
-import {NavbarService} from '../services/navbar.service';
-import {ModalService} from '../../add-task/services/modal.service';
-import {MatDialogModule} from "@angular/material/dialog";
-import {MatIconModule} from "@angular/material/icon";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NavbarComponent } from './navbar.component';
+import { NavbarService } from '../services/navbar.service';
+import { ModalService } from '../add-task/services/modal.service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('NavbarComponent', () => {
     let component: NavbarComponent;
@@ -15,8 +15,7 @@ describe('NavbarComponent', () => {
         TestBed.configureTestingModule({
             declarations: [NavbarComponent],
             providers: [NavbarService, ModalService],
-            imports: [MatDialogModule,
-                MatIconModule]
+            imports: [MatDialogModule, MatIconModule],
         });
 
         fixture = TestBed.createComponent(NavbarComponent);
@@ -36,7 +35,7 @@ describe('NavbarComponent', () => {
         expect(openModalSpy).toHaveBeenCalled();
     });
 
-    it('should open profile', () => {
+    it('should open profile-modal', () => {
         const openProfileSpy = spyOn(modalService, 'openProfile');
         fixture.detectChanges();
         component.openProfile();

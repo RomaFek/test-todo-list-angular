@@ -1,0 +1,43 @@
+<div class="card-body" *ngIf="dropDown">
+    <ng-container *ngFor="let task of colData.tasks">
+        <div class="card-container">
+            <div class="card-container-left">
+
+                <app-custom-checkbox [colorTask]="task" [task]="task"></app-custom-checkbox>
+
+                <p class="endDate"><span
+                    *ngIf="onMiniTask(task) | async as subTasks">
+                                    <span class="current" *ngIf="subTasks.length">{{ subTasks | currentTask }}</span>
+                                </span>
+                    <ng-container *ngIf="task.endDate">
+                        {{task.endDate | customDate}}</ng-container>
+                </p>
+                <ng-container *ngIf="dropDownMiniTask">
+                    <ng-container *ngIf="onMiniTask(task) | async as subTasks">
+                        <ng-container
+                            *ngIf="checkMiniTasks(task) | async"></ng-container>
+                        <div class="mini-task" *ngFor="let subTask of subTasks">
+
+                            <app-custom-checkbox [colorTask]="task" [task]="subTask"></app-custom-checkbox>
+
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+            <div class="icon-container">
+                        <span *ngIf="onMiniTask(task) | async as miniTasks">
+
+                        <a *ngIf="miniTasks.length" (click)="clickDropDownMiniTask()">
+                            <mat-icon
+                                class="task-icon-dropup">{{dropDownIcon()}}</mat-icon>
+                        </a>
+                        </span>
+                <mat-icon (click)="openAddMiniTaskModal(task)">add</mat-icon>
+                <mat-icon class="drag" draggable="true"
+                          (dragstart)="onDragStart($event, task)">
+                    touch_app
+                </mat-icon>
+            </div>
+        </div>
+    </ng-container>
+</div>

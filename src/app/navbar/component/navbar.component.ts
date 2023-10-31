@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NavbarService } from '../services/navbar.service';
 import { Observable, take } from 'rxjs';
-import { ModalService } from '../../add-task/services/modal.service';
+import { ModalService } from '../add-task/services/modal.service';
 
 @Component({
     selector: 'app-navbar',
