@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    height: 100px;
+}
+
+h3 {
+    margin: 0;
+    color: white;
+}
+
+input {
+    width: 200px;
+    margin-left: 5px;
+}
+
+button {
+    margin: 10px;
+    background-color: #21212b;
+    border: none;
+    height: 25px;
+    border-radius: 5px;
+    color: white;
+}
+
+@media screen and (max-width: 660px) {
+    .container {
+        width: 300px;
+    }
+}

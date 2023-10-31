@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UniqCollectService } from '../backoffice/component/main-page/dashboard/services/uniq-collect.service';
+import { UniqCollectService } from '../backoffice/components/dashboard/services/uniq-collect.service';
 
 @Component({
     selector: 'app-sidenav',

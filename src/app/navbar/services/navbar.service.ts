@@ -14,8 +14,6 @@ export class NavbarService {
     private btnLighting = new BehaviorSubject<boolean>(false);
     public btnLighting$ = this.btnLighting.asObservable();
 
-    constructor() {}
-
     public openSidenav() {
         this.sidenavVisible.next(true);
     }

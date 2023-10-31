@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IUser } from '../shared/model/user-model';
-import { ModalService } from '../navbar/add-task/services/modal.service';
+import { ModalService } from '../navbar/services/modal.service';
 import { mergeMap } from 'rxjs/operators';
 import { environment } from '../../enviroment';
 
@@ -40,29 +40,23 @@ export class RegistrationInterceptor implements HttpInterceptor {
 
     private addToIndexedDB(userData: IUser): Observable<void> {
         return new Observable<void>((observer) => {
-            console.log('00');
             const openRequest = indexedDB.open(
                 environment.nameDbUsers,
                 environment.versionDB,
             );
 
             openRequest.onupgradeneeded = function (event) {
-                console.log('11');
-
                 const db = openRequest.result;
                 if (!db.objectStoreNames.contains(environment.nameDbUsers)) {
                     let users = db.createObjectStore(environment.nameDbUsers, {
                         keyPath: 'id',
                     });
-                    console.log('22');
 
                     users.createIndex('login_idx', 'login');
                 }
             };
 
             openRequest.onsuccess = function (event) {
-                console.log('33');
-
                 const db = openRequest.result;
                 const transaction = db.transaction(
                     environment.nameDbUsers,

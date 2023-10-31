@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="dashboard">
+        <div class="header">
+            <div class="header-top">
+                <h1>Dashboard</h1>
+                <a (click)="openProfile();" class="modal-image">
+                    <img id="image" src="../../../../assets/user_avatar1.png" alt="Аватар">
+                </a>
+            </div>
+            <p>{{ date | whatsTime }}, {{currentUser$() | async}}</p>
+        </div>
+        <div class="container-btn">
+            <button class="btn" routerLinkActive="active-link" routerLink="/todo">all</button>
+            <button class="btn" routerLinkActive="active-link" routerLink="/today">today</button>
+            <button class="btn" routerLinkActive="active-link" routerLink="/wasted">wasted</button>
+        </div>
+
+        <router-outlet></router-outlet>
+
+    </div>
+</div>
+
