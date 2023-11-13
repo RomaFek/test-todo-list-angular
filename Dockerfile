@@ -1,14 +1,12 @@
-# Указываем используемый шаблон
-FROM node
-# Создаём рабочий каталог приложения внутри контейнера
-WORKDIR /application
-# Устанавливаем зависимости приложения с помощью npm
-# Копируются оба файла package.json И package-lock.json, если они присутствуют
-COPY package*.json ./
-RUN npm ci
-# Копируем в образ файлы вашего приложения
+#STAGE 1
+FROM node:18 AS build
+WORKDIR /usr/src/app
+COPY package.json package-lock.json ./
+RUN npm install
 COPY . .
-# Открываем порт 8000 чтобы он был доступен снаружи контейнера
-EXPOSE 8000
-# Выполняем команду для запуска приложения внутри контейнера
-CMD [ "npm", "start" ]
+RUN npm run build
+
+#STAGE 2
+FROM nginx:1.17.1-alpine
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /usr/src/app/dist/todo-list /usr/share/nginx/html

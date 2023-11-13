@@ -14,15 +14,11 @@ export class DashboardComponent implements OnInit {
     public sidenavVisible$!: Observable<boolean>;
     public date = new Date();
 
-    // public currentUser$!: Observable<string>;
-
     constructor(
         private navbarService: NavbarService,
         private userContextService: UserContextService,
         private modalService: ModalService,
-    ) {
-        // this.currentUser$ = this.userContextService.getUserName$;
-    }
+    ) {}
 
     public ngOnInit() {
         this.sidenavVisible$ = this.navbarService.sidenavVisible$;
